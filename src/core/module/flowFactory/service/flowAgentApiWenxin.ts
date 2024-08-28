@@ -15,22 +15,27 @@ interface Response {
 
 export class FlowAgentApiWenxin implements IFlowAgentApi {
     constructor(public config: IConfig) {}
-    async requestSingle(message: string): Promise<MessageResponse | undefined> {
+    async requestSingle(
+        message: string,
+        options?: { system?: string }
+    ): Promise<MessageResponse | undefined> {
         try {
-            const request = await post<Response>(this.config.url, {
+            const request = {
                 messages: [
                     {
                         role: "user",
                         content: message
                     }
-                ]
-            });
+                ],
+                system: options?.system || ""
+            };
+            const response = await post<Response>(this.config.url, request);
             return {
-                id: request.data.id,
-                data: request.data.result,
-                timestamp: request.data.created,
+                id: response.data.id,
+                data: response.data.result,
+                timestamp: response.data.created,
                 property: {
-                    ...request.data
+                    ...response.data
                 }
             };
         } catch (error) {
