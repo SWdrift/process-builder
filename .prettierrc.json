@@ -1,0 +1,34 @@
+{
+    "overrides": [
+        {
+            "files": ["*.vue"],
+            "options": {
+                "tabWidth": 2
+            }
+        },
+        {
+            "files": ["*.tsx"],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ],
+    "printWidth": 100,
+    "tabWidth": 4,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": false,
+    "quoteProps": "as-needed",
+    "bracketSpacing": true,
+    "trailingComma": "none",
+    "jsxSingleQuote": false,
+    "arrowParens": "always",
+    "insertPragma": false,
+    "requirePragma": false,
+    "proseWrap": "never",
+    "htmlWhitespaceSensitivity": "strict",
+    "vueIndentScriptAndStyle": false,
+    "singleAttributePerLine": false,
+    "endOfLine": "auto",
+    "rangeStart": 0
+}
