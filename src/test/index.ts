@@ -1,6 +1,6 @@
 import { flowChat, flowManager } from "../core/index";
 
-export function mainTest() {
+const testBaseRegister = () => {
     const test1 = (message: string) => {
         console.log("test", new Date().getDate(), message);
     };
@@ -40,4 +40,16 @@ export function mainTest() {
         ]
     });
     console.log(flowManager.getAllNodes());
+};
+
+const testBaseFlowChat = async () => {
+    const result = await flowChat.send("hello world");
+    if (result) {
+        console.log(result);
+    }
+};
+
+export function mainTest() {
+    // testBaseRegister();
+    // testBaseFlowChat();
 }

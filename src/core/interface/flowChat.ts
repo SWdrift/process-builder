@@ -7,11 +7,14 @@ export interface IFlowChat {
      * @param request 消息请求
      * @returns 消息响应
      */
-    send(text: string): Promise<MessageResponse>;
+    send(text: string): Promise<MessageResponse | undefined>;
 }
 
 export type MessageResponse = {
     id: string;
     data: string;
     timestamp: number;
+    property?: {
+        [key: string]: any;
+    };
 };

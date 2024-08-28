@@ -1,7 +1,11 @@
 import { IFlowChat, MessageResponse } from "../../interface/flowChat";
+import { IFlowManager } from "./interface/flowManager";
+
+export type { IFlowManager };
 
 export class FlowChat implements IFlowChat {
-    send(text: string): Promise<MessageResponse> {
-        throw new Error("Method not implemented.");
+    constructor(private flowManager: IFlowManager) {}
+    async send(text: string): Promise<MessageResponse | undefined> {
+        return await this.flowManager.sendMessage(text);
     }
 }
