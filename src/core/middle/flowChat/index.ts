@@ -1,12 +1,10 @@
 import { IFlowChat, IEntSession } from "../../interface/flowChat";
 import { ActionSession } from "./action/actionSession";
 import { IAgent } from "./interface/agent";
-import { IFlowParsing } from "./interface/flowParsing";
 import { EntMessage } from "./entity/message";
 
 export { EntMessage };
 export type { IAgent };
-export type { IFlowParsing };
 
 export class FlowChat implements IFlowChat {
     sessionHistory: IEntSession[] = [];

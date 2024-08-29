@@ -1,5 +1,5 @@
-import { EnumNode } from "../../../interface/flowNode";
-import { EntNode } from "../../../middle/flowNode";
+import { EnumNode } from "../../../interface/flowManager";
+import { EntNode } from "../../../middle/flowManager";
 
 export class NodeStorage {
     nodes: { [id: string]: EntNode<EnumNode> } = {};

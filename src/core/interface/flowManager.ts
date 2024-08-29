@@ -3,7 +3,21 @@
  *
  * 将方法、常量注册到 FlowExpress 中，流构建器可以根据这些注册信息进行流的构建
  */
-export interface IFlowNode {
+export interface IFlowManager {
+    /**
+     * 执行当前流程
+     * @returns 是否成功
+     */
+    performProcess(): Promise<boolean>;
+    /**
+     * 添加流程
+     */
+    addProcess(process: IEntProcess): void;
+    /**
+     * 解析流程字符串并添加流程
+     */
+    addProcess(processString: string): void;
+
     /**
      * 注册方法
      */
@@ -20,6 +34,24 @@ export interface IFlowNode {
      * 获取所有节点
      */
     getAllNodes(): IEntNode<EnumNode>[];
+}
+
+/**
+ * 流程对象
+ */
+export interface IEntProcess {
+    id: string;
+    timestamp: number;
+    nodeTree: IEntConnect[];
+}
+
+/**
+ * 流程连接对象
+ */
+export interface IEntConnect {
+    fromNode: string;
+    toNode: string;
+    toParam: string;
 }
 
 /**

@@ -2,10 +2,6 @@ import { IEntSession } from "../../../interface/flowChat";
 import { EntMessage } from "../entity/message";
 import { EntSession } from "../entity/session";
 import { IAgent } from "../interface/agent";
-import { IFlowParsing } from "../interface/flowParsing";
-
-export type { IAgent };
-export type { IFlowParsing };
 
 export class ActionSession {
     constructor(private agent: IAgent) {}

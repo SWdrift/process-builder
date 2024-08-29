@@ -1,9 +1,9 @@
-import { ValueDescribe, FnDescribe } from "../../../interface/flowNode";
+import { ValueDescribe, FnDescribe } from "../../../interface/flowManager";
 import { logger } from "../../../public/module/logger";
-import { INodeStorage } from "../interface/nodeManager";
+import { INodeManager } from "../interface/nodeManager";
 
 export class ActionValidate {
-    constructor(public nodeManager: INodeStorage) {}
+    constructor(public nodeManager: INodeManager) {}
 
     isRegisterMethodOk<T extends Fn>(target: T, describe: FnDescribe<T>): boolean {
         if (this.nodeManager.getNodeById(describe.id)) {
