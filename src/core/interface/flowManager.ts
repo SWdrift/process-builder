@@ -11,12 +11,9 @@ export interface IFlowManager {
     performProcess(): Promise<boolean>;
     /**
      * 添加流程
+     * @param processString 流程字符串或流程对象
      */
-    addProcess(process: IEntProcess): void;
-    /**
-     * 解析流程字符串并添加流程
-     */
-    addProcess(processString: string): void;
+    addProcess(processString: string | object): void;
 
     /**
      * 注册方法

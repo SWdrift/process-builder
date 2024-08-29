@@ -240,5 +240,5 @@ const testBuilderToken = async () => {
 export async function mainTest() {
     testBaseRegister();
     // testBaseFlowChat();
-    // await testBuilderToken();
+    await testBuilderToken();
 }

@@ -19,8 +19,8 @@ export class ActionSession {
     }
 
     private addSessionToFlow(session: IEntSession): void {
-        if (session.q.isProcess) {
-            this.flowManager.addProcess(session.q.data);
+        if (session.a.isProcess) {
+            this.flowManager.addProcess(session.a.data);
         }
     }
 }

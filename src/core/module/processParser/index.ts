@@ -7,7 +7,7 @@ export class ProcessParser implements IProcessParser {
         private nodeManager: INodeManager,
         private stringParser: FlowStringParser = new FlowStringParser(nodeManager)
     ) {}
-    parseString(flowString: string): IEntProcess | undefined {
+    parseString(flowString: string | object): IEntProcess | undefined {
         return this.stringParser.parse(flowString);
     }
 }

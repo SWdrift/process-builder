@@ -34,6 +34,7 @@ export class AgentWenxin implements IAgentApi {
                 id: response.data.id,
                 data: response.data.result,
                 timestamp: response.data.created,
+                isProcess: true,
                 property: {
                     ...response.data
                 }

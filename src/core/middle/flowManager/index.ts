@@ -27,14 +27,10 @@ export class FlowManager implements IFlowManager {
     performProcess(): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
-    addProcess(processOrString: IEntProcess | string) {
-        if (typeof processOrString === "string") {
-            const process = this.processParser.parseString(processOrString);
-            if (process) {
-                this.processManager.pushToQueue(process);
-            }
-        } else {
-            this.processManager.pushToQueue(processOrString);
+    addProcess(processOrString: string | object) {
+        const process = this.processParser.parseString(processOrString);
+        if (process) {
+            this.processManager.pushToQueue(process);
         }
     }
 

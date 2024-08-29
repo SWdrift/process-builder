@@ -11,17 +11,40 @@ import { logger } from "../../../public/module/logger";
 export class FlowStringParser {
     constructor(private flowNode: INodeManager) {}
 
-    parse(text: string): IEntProcess | undefined {
+    parse(text: string | object): IEntProcess | undefined {
+        const data = this.convertToObject(text);
+        if (!data) {
+            return undefined;
+        }
+        return this.getVerifiedProcess(data);
+    }
+
+    private convertToObject(text: string | object): object | undefined {
+        if (typeof text === "string") {
+            return this.extractJson(text);
+        }
+        if (typeof text === "object") {
+            return text;
+        }
+        return undefined;
+    }
+
+    private extractJson(string: string): object | undefined {
+        const jsonCodeBlockRegex = /```json\s*([\s\S]*?)\s*```/g;
+        const match = jsonCodeBlockRegex.exec(string);
         try {
-            const data = JSON.parse(text);
-            return this.getVerifiedProcess(data);
+            if (match && match[1]) {
+                return JSON.parse(match[1].trim());
+            } else {
+                return JSON.parse(string);
+            }
         } catch (error) {
-            logger.record(`string parser error ${error}`, logger.Level.Warn);
+            logger.record(`string parser error, invalid json ${error}`, logger.Level.Warn);
             return undefined;
         }
     }
 
-    private getVerifiedProcess(data: IEntProcess | unknown): IEntProcess | undefined {
+    private getVerifiedProcess(data: IEntProcess | object): IEntProcess | undefined {
         const nodeTree = this.validateNodeTree(data);
         if (!nodeTree) return undefined;
         return {
@@ -35,7 +58,7 @@ export class FlowStringParser {
         data: IEntProcess["nodeTree"] | unknown
     ): IEntProcess["nodeTree"] | undefined {
         if (!Array.isArray(data)) {
-            logger.record(`data parser error, invalid data`, logger.Level.Warn);
+            logger.record(`string parser error, invalid data`, logger.Level.Warn);
             return undefined;
         }
         for (const value of data as IEntConnect[]) {
@@ -51,7 +74,7 @@ export class FlowStringParser {
 
     private validateConnect(data: IEntConnect | unknown): boolean {
         if (!data || typeof data !== "object") {
-            logger.record(`data parser error, invalid data`, logger.Level.Warn);
+            logger.record(`string parser error, invalid data`, logger.Level.Warn);
             return false;
         }
         if (
@@ -59,7 +82,7 @@ export class FlowStringParser {
             !data.hasOwnProperty("toNode") ||
             !data.hasOwnProperty("toParam")
         ) {
-            logger.record(`data parser error, invalid data`, logger.Level.Warn);
+            logger.record(`string parser error, invalid data`, logger.Level.Warn);
             return false;
         }
         return true;
@@ -69,7 +92,7 @@ export class FlowStringParser {
         const fromNode = this.flowNode.getNodeById(data.fromNode);
         const toNode = this.flowNode.getNodeById(data.toNode);
         if (!fromNode || !toNode) {
-            logger.record(`data parser error, node not found`, logger.Level.Warn);
+            logger.record(`string parser error, node not found`, logger.Level.Warn);
             return false;
         }
         if (!this.validateParam(toNode, data.toParam)) {
@@ -92,7 +115,7 @@ export class FlowStringParser {
         }
         const param = fnDescribe.params.find((item) => item.id === paramId);
         if (!param) {
-            logger.record(`data parser error, param not found`, logger.Level.Warn);
+            logger.record(`string parser error, param not found`, logger.Level.Warn);
             return false;
         }
         return true;
