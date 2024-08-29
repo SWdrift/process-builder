@@ -15,11 +15,11 @@ export interface IFlowNode {
     /**
      * 获取节点
      */
-    getNodeById(id: string): FlowNode<EnumFlowNode> | undefined;
+    getNodeById(id: string): IEntNode<EnumNode> | undefined;
     /**
      * 获取所有节点
      */
-    getAllNodes(): FlowNode<EnumFlowNode>[];
+    getAllNodes(): IEntNode<EnumNode>[];
 }
 
 /**
@@ -50,7 +50,7 @@ export interface FnDescribe<T extends Fn> extends BaseDescribe {
 /**
  * 节点
  */
-export interface FlowNode<T extends EnumFlowNode> {
+export interface IEntNode<T extends EnumNode> {
     id: string;
     describe: DescribeType<T>;
     type: T;
@@ -59,14 +59,14 @@ export interface FlowNode<T extends EnumFlowNode> {
 /**
  * 节点类型
  */
-export enum EnumFlowNode {
+export enum EnumNode {
     Method = "Method",
     Value = "Value"
 }
 
-export type DescribeType<T extends EnumFlowNode> = {
-    [EnumFlowNode.Method]: FnDescribe<Fn>;
-    [EnumFlowNode.Value]: ValueDescribe;
+export type DescribeType<T extends EnumNode> = {
+    [EnumNode.Method]: FnDescribe<Fn>;
+    [EnumNode.Value]: ValueDescribe;
 }[T];
 
 type ParamType<T extends Fn> = T extends (...arg: infer P) => any ? [...P] : [];

@@ -1,4 +1,4 @@
-import { EnumFlowNode } from "../../../interface/flowNode";
+import { EnumNode } from "../../../interface/flowNode";
 import { INodeStorage } from "../../../middle/flowNode";
 import { TOKEN_CONFIG } from "../setting/token";
 
@@ -16,8 +16,8 @@ export class TokenBuilder {
 
     getNodeString(): { methodString: string; valueString: string } {
         const nodes = this.nodeManager.getAllNodes();
-        const methods = nodes.filter((node) => node.type === EnumFlowNode.Method);
-        const values = nodes.filter((node) => node.type === EnumFlowNode.Value);
+        const methods = nodes.filter((node) => node.type === EnumNode.Method);
+        const values = nodes.filter((node) => node.type === EnumNode.Value);
 
         const methodString = JSON.stringify(methods);
         const valueString = JSON.stringify(values);

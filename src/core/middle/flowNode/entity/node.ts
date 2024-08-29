@@ -1,6 +1,7 @@
-import { EnumFlowNode, DescribeType } from "../../../interface/flowNode";
+import { IEntNode } from "../../../interface/flowNode";
+import { EnumNode, DescribeType } from "../../../interface/flowNode";
 
-export class EntFlowNode<T extends EnumFlowNode> {
+export class EntNode<T extends EnumNode> implements IEntNode<EnumNode> {
     public id: string;
 
     constructor(

@@ -1,8 +1,8 @@
-import { EnumFlowNode } from "../../../interface/flowNode";
-import { EntFlowNode } from "../entity/entNode";
+import { EnumNode } from "../../../interface/flowNode";
+import { EntNode } from "../entity/node";
 
 export interface INodeStorage {
-    register(node: EntFlowNode<EnumFlowNode>): void;
-    getNodeById(id: string): EntFlowNode<EnumFlowNode> | undefined;
-    getAllNodes(): EntFlowNode<EnumFlowNode>[];
+    register(node: EntNode<EnumNode>): void;
+    getNodeById(id: string): EntNode<EnumNode> | undefined;
+    getAllNodes(): EntNode<EnumNode>[];
 }
