@@ -1,9 +1,9 @@
-import { EnumFlowNode } from "../../../interface/flowManager";
-import { INodeManager } from "../../../middle/flowManager";
+import { EnumFlowNode } from "../../../interface/flowNode";
+import { INodeStorage } from "../../../middle/flowNode";
 import { TOKEN_CONFIG } from "../setting/token";
 
 export class TokenBuilder {
-    constructor(private nodeManager: INodeManager) {}
+    constructor(private nodeManager: INodeStorage) {}
     buildToken(message: string): string {
         const { methodString, valueString } = this.getNodeString();
 

@@ -1,8 +1,8 @@
-import { EnumFlowNode } from "../../../interface/flowManager";
-import { FlowNode } from "../../../middle/flowManager";
+import { EnumFlowNode } from "../../../interface/flowNode";
+import { EntFlowNode } from "../../../middle/flowNode";
 
 export class NodeStorage {
-    nodes: { [id: string]: FlowNode<EnumFlowNode> } = {};
+    nodes: { [id: string]: EntFlowNode<EnumFlowNode> } = {};
     static instance: NodeStorage;
 
     constructor() {
@@ -12,22 +12,22 @@ export class NodeStorage {
         return NodeStorage.instance;
     }
 
-    saveNode(node: FlowNode<EnumFlowNode>) {
+    saveNode(node: EntFlowNode<EnumFlowNode>) {
         this.nodes[node.id] = node;
     }
-    deleteNode(node: FlowNode<EnumFlowNode>) {
+    deleteNode(node: EntFlowNode<EnumFlowNode>) {
         delete this.nodes[node.id];
     }
-    updateNode(node: FlowNode<EnumFlowNode>) {
+    updateNode(node: EntFlowNode<EnumFlowNode>) {
         this.nodes[node.id] = node;
     }
-    getNodeById(id: string): FlowNode<EnumFlowNode> | undefined {
+    getNodeById(id: string): EntFlowNode<EnumFlowNode> | undefined {
         if (id in this.nodes) {
             return this.nodes[id];
         }
         return undefined;
     }
-    getAllNodes(): FlowNode<EnumFlowNode>[] {
+    getAllNodes(): EntFlowNode<EnumFlowNode>[] {
         return Object.values(this.nodes);
     }
 }

@@ -1,5 +1,5 @@
 import { FlowChat } from "./middle/flowChat";
-import { FlowManager } from "./middle/flowManager";
+import { FlowNode } from "./middle/flowNode";
 
 import { NodeManager } from "./module/node";
 import { Agent, AgentWenxin } from "./module/agent";
@@ -14,6 +14,6 @@ const flowAgentApi = new AgentWenxin({
 const flowFactory = new Agent(nodeManager, flowAgentApi);
 
 const flowChat = new FlowChat(flowFactory);
-const flowManager = new FlowManager(nodeManager);
+const flowManager = new FlowNode(nodeManager);
 
 export { flowChat, flowManager };

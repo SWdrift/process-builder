@@ -1,15 +1,15 @@
 import { MessageResponse } from "../../interface/flowChat";
 import { IAgent } from "../../middle/flowChat";
-import { INodeManager } from "../../middle/flowManager";
+import { INodeStorage } from "../../middle/flowNode";
 import { TokenBuilder } from "./service/tokenBuilder";
 import { AgentSocket } from "./service/agentSocket";
 import { IAgentApi } from "./interface/agentApi";
 
 export class Agent implements IAgent {
     constructor(
-        private nodeManager: INodeManager,
+        private nodeStorage: INodeStorage,
         private agentApi: IAgentApi,
-        private tokenBuilder: TokenBuilder = new TokenBuilder(nodeManager),
+        private tokenBuilder: TokenBuilder = new TokenBuilder(nodeStorage),
         private agentSocket: AgentSocket = new AgentSocket(agentApi)
     ) {}
     async sendMessage(message: string): Promise<MessageResponse | undefined> {

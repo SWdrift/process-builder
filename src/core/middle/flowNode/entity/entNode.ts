@@ -1,6 +1,6 @@
-import { EnumFlowNode, DescribeType } from "../../../interface/flowManager";
+import { EnumFlowNode, DescribeType } from "../../../interface/flowNode";
 
-export class FlowNode<T extends EnumFlowNode> {
+export class EntFlowNode<T extends EnumFlowNode> {
     public id: string;
 
     constructor(
@@ -12,6 +12,6 @@ export class FlowNode<T extends EnumFlowNode> {
     }
 
     private getId(describe: DescribeType<T>): string {
-        return describe.id
+        return describe.id;
     }
 }
