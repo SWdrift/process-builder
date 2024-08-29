@@ -1,4 +1,4 @@
-import { MessageResponse } from "../../../interface/flowChat";
+import { IEntMessage } from "../../../interface/flowChat";
 import { IAgentApi } from "../interface/agentApi";
 import { post } from "../../../public/module/api";
 import { logger } from "../../../public/module/logger";
@@ -18,7 +18,7 @@ export class AgentWenxin implements IAgentApi {
     async requestSingle(
         message: string,
         options?: { system?: string }
-    ): Promise<MessageResponse | undefined> {
+    ): Promise<IEntMessage | undefined> {
         try {
             const request = {
                 messages: [

@@ -3,19 +3,18 @@
  */
 export interface IFlowProcess {
     /**
-     * 流程队列
+     * 当前流程队列
      */
-    flowQueue: any[];
+    processQueue: IEntProcess[];
     /**
-     * 执行流程
+     * 执行当前流程
      * @returns 是否成功
      */
-    performFlow(): Promise<boolean>;
+    performProcess(): Promise<boolean>;
     /**
-     * 获取当前流程
-     * @returns 当前流程
+     * 添加流程
      */
-    getCurrentFlow(): IEntProcess;
+    addProcess(process: IEntProcess): void;
 }
 
 /**
