@@ -1,7 +1,7 @@
 /**
  * 流程动作接口
  */
-export interface FlowAction {
+export interface FlowManager {
     /**
      * 流程队列
      */
