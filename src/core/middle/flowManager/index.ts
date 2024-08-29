@@ -5,13 +5,13 @@ import {
     EnumNode,
     IEntProcess
 } from "../../interface/flowManager";
-import { EntNode } from "./entity/node";
 import { ActionValidate } from "./action/actionValidate";
+
+import { EntNode } from "./entity/node";
 import { INodeManager } from "./interface/nodeManager";
 import { IProcessManager } from "./interface/processManager";
 import { IProcessParser } from "./interface/processParser";
-
-export type { EntNode };
+export { EntNode };
 export type { INodeManager };
 export type { IProcessManager };
 export type { IProcessParser };

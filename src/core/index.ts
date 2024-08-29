@@ -17,7 +17,7 @@ const agent = new Agent(nodeManager, flowAgentApi);
 const processManager = new ProcessManager();
 const processParser = new ProcessParser(nodeManager);
 
-const flowChat = new FlowChat(agent);
 const flowManager = new FlowManager(nodeManager, processManager, processParser);
+const flowChat = new FlowChat(agent, flowManager);
 
-export { flowChat, flowManager };
+export { flowManager, flowChat };
