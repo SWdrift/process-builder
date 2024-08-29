@@ -1,5 +1,5 @@
 import { MessageResponse } from "../../../interface/flowChat";
-import { IFlowAgentApi } from "../interface/flowAgentApi";
+import { IAgentApi } from "../interface/agentApi";
 import { post } from "../../../public/module/api";
 import { logger } from "../../../public/module/logger";
 
@@ -13,7 +13,7 @@ interface Response {
     created: number;
 }
 
-export class FlowAgentApiWenxin implements IFlowAgentApi {
+export class AgentWenxin implements IAgentApi {
     constructor(public config: IConfig) {}
     async requestSingle(
         message: string,

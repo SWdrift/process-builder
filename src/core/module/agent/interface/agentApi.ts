@@ -1,6 +1,6 @@
 import { MessageResponse } from "../../../interface/flowChat";
 
-export interface IFlowAgentApi {
+export interface IAgentApi {
     requestSingle(
         message: string,
         option?: RequestSingleConfig

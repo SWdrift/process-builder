@@ -1,9 +1,9 @@
 import { MessageResponse } from "../../../interface/flowChat";
-import { IFlowAgentApi } from "../interface/flowAgentApi";
+import { IAgentApi } from "../interface/agentApi";
 import { TOKEN_CONFIG } from "../setting/token";
 
-export class FlowAgent {
-    constructor(private api: IFlowAgentApi) {}
+export class AgentSocket {
+    constructor(private api: IAgentApi) {}
     async chat(message: string): Promise<MessageResponse | undefined> {
         const response = await this.api.requestSingle(message, {
             system: TOKEN_CONFIG.SYSTEM
