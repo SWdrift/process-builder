@@ -1,10 +1,4 @@
-import {
-    IEntProcess,
-    IEntConnect,
-    EnumNode,
-    IEntNode,
-    FnDescribe
-} from "../../../interface/flowManager";
+import { IEntProcess, IEntConnect, EnumNode, IEntNode } from "../../../interface/flowManager";
 import { INodeManager } from "../../../middle/flowManager";
 import { logger } from "../../../public/module/logger";
 
@@ -45,18 +39,18 @@ export class FlowStringParser {
     }
 
     private getVerifiedProcess(data: IEntProcess | object): IEntProcess | undefined {
-        const nodeTree = this.validateNodeTree(data);
-        if (!nodeTree) return undefined;
+        const nodeGraph = this.validateNodeGraph(data);
+        if (!nodeGraph) return undefined;
         return {
             id: "",
             timestamp: Date.now(),
-            nodeTree
+            nodeGraph: nodeGraph
         };
     }
 
-    private validateNodeTree(
-        data: IEntProcess["nodeTree"] | unknown
-    ): IEntProcess["nodeTree"] | undefined {
+    private validateNodeGraph(
+        data: IEntProcess["nodeGraph"] | unknown
+    ): IEntProcess["nodeGraph"] | undefined {
         if (!Array.isArray(data)) {
             logger.record(`string parser error, invalid data`, logger.Level.Warn);
             return undefined;
@@ -69,7 +63,7 @@ export class FlowStringParser {
                 return undefined;
             }
         }
-        return data as IEntProcess["nodeTree"];
+        return data as IEntProcess["nodeGraph"];
     }
 
     private validateConnect(data: IEntConnect | unknown): boolean {
@@ -89,8 +83,8 @@ export class FlowStringParser {
     }
 
     private validateNode(data: IEntConnect): boolean {
-        const fromNode = this.flowNode.getNodeById(data.fromNode);
-        const toNode = this.flowNode.getNodeById(data.toNode);
+        const fromNode = this.flowNode.getNodeById(data.fromNode.id);
+        const toNode = this.flowNode.getNodeById(data.toNode.id);
         if (!fromNode || !toNode) {
             logger.record(`string parser error, node not found`, logger.Level.Warn);
             return false;
@@ -107,13 +101,10 @@ export class FlowStringParser {
         }
         const node = data as IEntNode<EnumNode.Method>;
 
-        // 解决 ts 实例化程度过深报错
-        const fnDescribe = node.describe as FnDescribe<(args: any) => void>;
-
-        if (!Array.isArray(fnDescribe.params)) {
+        if (!Array.isArray(node.describe.params)) {
             return false;
         }
-        const param = fnDescribe.params.find((item) => item.id === paramId);
+        const param = node.describe.params.find((item) => item.id === paramId);
         if (!param) {
             logger.record(`string parser error, param not found`, logger.Level.Warn);
             return false;

@@ -46,15 +46,15 @@ export interface IEntProcess {
  * 流程连接对象
  */
 export interface IEntConnect {
-    fromNode: NodeConnectDescribe;
-    toNode: NodeConnectDescribe;
+    fromNode: NodeDescribe;
+    toNode: NodeDescribe;
     toParam: string;
 }
 
 /**
- * 节点连接描述
+ * 节点描述
  */
-export interface NodeConnectDescribe {
+export interface NodeDescribe {
     id: string;
     instanceId: number;
 }

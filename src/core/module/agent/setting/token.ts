@@ -22,7 +22,8 @@ interface ITokenConfig {
     VALUE_SUFFIX: string;
 }
 
-const descSystem = "你需要根据指定的元描述、用户目的、方法表和值表生成可被应用解析执行的结构化数据以满足用户目的，你的输出的结果应当为指定的数组格式。";
+const descSystem =
+    "你需要根据指定的元描述、用户目的、方法表和值表生成可被应用解析执行的结构化数据以满足用户目的，你的输出的结果应当为指定的数组格式。";
 
 // 元描述
 const descMate =
@@ -45,23 +46,29 @@ const descFormat =
     "2. 值表格式：" +
     "[{id:唯一id,describe:常量描述}]" +
     "3. 响应格式，请确保返回结果为数组格式：" +
-    "[{fromNode:来源节点或值id,toNode:目标节点或值id,toParam:目标参数id}]";
+    "[{fromNode:{id:来源节点id, instanceId:来源节点实例序号}, toNode:{id:目标节点id, instanceId:目标节点实例序号}, toParam:目标参数id}]";
 
 // 响应示例
 const descExample =
-    "响应示例：假设我们要构建一个简单的图像处理流程，满足用户“为图像添加滤镜”的需求" +
+    "响应示例：假设我们要构建一个简单的图像处理流程，满足用户“为图像添加滤镜”的需求。" +
     "给定方法表：" +
     '[{"id":"node1","describe":"加载图像","params":[{"id":"filePath","describe":"图像文件路径"}],"return":{"id":"imageData","describe":"加载的图像数据"}},{"id":"node2","describe":"应用滤镜","params":[{"id":"imageData","describe":"图像数据"},{"id":"filterType","describe":"滤镜类型"}],"return":{"id":"filteredImage","describe":"滤镜处理后的图像数据"}},{"id":"node3","describe":"保存图像","params":[{"id":"imageData","describe":"图像数据"},{"id":"savePath","describe":"保存路径"}],"return":{"id":"saveStatus","describe":"保存状态"}}]' +
     "给定值表：" +
     '[{"id":"value1","describe":"滤镜类型 - 灰度滤镜"}]' +
     "响应应当为：" +
-    '[{"fromNode":"node1","toNode":"node2","toParam":"imageData"},{"fromNode":"value1","toNode":"node2","toParam":"filterType"},{"fromNode":"node2","toNode":"node3","toParam":"imageData"}]';
+    '[{"fromNode":{"id":"node1", "instanceId":1}, "toNode":{"id":"node2", "instanceId":1}, "toParam":"imageData"},' +
+    '{"fromNode":{"id":"value1", "instanceId":1}, "toNode":{"id":"node2", "instanceId":1}, "toParam":"filterType"},' +
+    '{"fromNode":{"id":"node2", "instanceId":1}, "toNode":{"id":"node3", "instanceId":1}, "toParam":"imageData"},' +
+    '{"fromNode":{"id":"node1", "instanceId":1}, "toNode":{"id":"node2", "instanceId":2}, "toParam":"imageData"},' +
+    '{"fromNode":{"id":"value1", "instanceId":1}, "toNode":{"id":"node2", "instanceId":2}, "toParam":"filterType"},' +
+    '{"fromNode":{"id":"node2", "instanceId":2}, "toNode":{"id":"node3", "instanceId":2}, "toParam":"imageData"}]';
 
 // 注意事项
 const descNote =
     "注意事项：" +
     "1. 如果**不能**或**不确定**能完成用户目的，请**返回空数组[]**" +
-    "2. **请确保响应结果为数组格式**。";
+    "2. **请确保响应结果为数组格式**。" +
+    "3. 请确保同一节点的不同实例具有**不同的`instanceId`**，以区分位于不同位置的同类型节点。";
 
 const descMateEnd = "元描述结束。";
 

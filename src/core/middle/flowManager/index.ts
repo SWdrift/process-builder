@@ -1,31 +1,30 @@
-import {
-    IFlowManager,
-    ValueDescribe,
-    FnDescribe,
-    EnumNode,
-    IEntProcess
-} from "../../interface/flowManager";
+import { IFlowManager, ValueDescribe, FnDescribe, EnumNode } from "../../interface/flowManager";
 import { ActionValidate } from "./action/actionValidate";
 
 import { EntNode } from "./entity/node";
 import { INodeManager } from "./interface/nodeManager";
+import { IProcessActuator } from "./interface/processActuator";
 import { IProcessManager } from "./interface/processManager";
 import { IProcessParser } from "./interface/processParser";
 export { EntNode };
 export type { INodeManager };
+export type { IProcessActuator };
 export type { IProcessManager };
 export type { IProcessParser };
 
 export class FlowManager implements IFlowManager {
     constructor(
         private nodeStorage: INodeManager,
+        private processActator: IProcessActuator,
         private processManager: IProcessManager,
         private processParser: IProcessParser,
         private actionValidate: ActionValidate = new ActionValidate(nodeStorage)
     ) {}
 
-    performProcess(): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    async performProcess(): Promise<any> {
+        const process = this.processManager.shiftFromQueue();
+        if (!process) return false;
+        return this.processActator.execute(process);
     }
     addProcess(processOrString: string | object) {
         const process = this.processParser.parseString(processOrString);

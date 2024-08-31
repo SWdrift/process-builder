@@ -3,6 +3,6 @@ import { EntNode } from "../entity/node";
 
 export interface INodeManager {
     register(node: EntNode<EnumNode>): void;
-    getNodeById(id: string): EntNode<EnumNode> | undefined;
+    getNodeById<T extends EnumNode = EnumNode>(id: string): EntNode<T> | undefined;
     getAllNodes(): EntNode<EnumNode>[];
 }
