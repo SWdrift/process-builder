@@ -3,6 +3,7 @@ import { FlowManager } from "./middle/flowManager";
 
 import { NodeManager } from "./module/nodeManager";
 import { Agent, AgentWenxin } from "./module/agent";
+import { ProcessActuator } from "./module/processActuator";
 import { ProcessManager } from "./module/processManager";
 import { ProcessParser } from "./module/processParser";
 
@@ -14,10 +15,11 @@ const flowAgentApi = new AgentWenxin({
     url: url + "?access_token=" + accessToken
 });
 const agent = new Agent(nodeManager, flowAgentApi);
+const processActuator = new ProcessActuator(nodeManager);
 const processManager = new ProcessManager();
 const processParser = new ProcessParser(nodeManager);
 
-const flowManager = new FlowManager(nodeManager, processManager, processParser);
+const flowManager = new FlowManager(nodeManager, processActuator, processManager, processParser);
 const flowChat = new FlowChat(agent, flowManager);
 
 export { flowManager, flowChat };

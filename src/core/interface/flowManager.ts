@@ -39,16 +39,24 @@ export interface IFlowManager {
 export interface IEntProcess {
     id: string;
     timestamp: number;
-    nodeTree: IEntConnect[];
+    nodeGraph: IEntConnect[];
 }
 
 /**
  * 流程连接对象
  */
 export interface IEntConnect {
-    fromNode: string;
-    toNode: string;
+    fromNode: NodeConnectDescribe;
+    toNode: NodeConnectDescribe;
     toParam: string;
+}
+
+/**
+ * 节点连接描述
+ */
+export interface NodeConnectDescribe {
+    id: string;
+    instanceId: number;
 }
 
 /**
@@ -59,6 +67,8 @@ export interface BaseDescribe {
     id: string;
     /** 描述 */
     describe: string;
+    /** 是否可选 默认 false */
+    optional?: boolean;
 }
 
 /**
@@ -94,7 +104,7 @@ export enum EnumNode {
 }
 
 export type DescribeType<T extends EnumNode> = {
-    [EnumNode.Method]: FnDescribe<Fn>;
+    [EnumNode.Method]: FnDescribe<(args: any) => any>;
     [EnumNode.Value]: ValueDescribe;
 }[T];
 
