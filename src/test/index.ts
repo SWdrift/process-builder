@@ -1,4 +1,4 @@
-import { flowChat, flowManager } from "../index";
+import { flowChat, flowManager } from "../core/index";
 
 const testBaseRegister = () => {
     const test1 = (message: string) => {

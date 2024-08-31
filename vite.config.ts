@@ -7,7 +7,7 @@ export default defineConfig({
         outDir: "dist",
         target: "es2020",
         lib: {
-            entry: "src/index.ts",
+            entry: "src/core/index.ts",
             name: "flowexpress",
             fileName: (format) => `flowexpress.${format}.js`,
             formats: ["es", "cjs", "umd"]

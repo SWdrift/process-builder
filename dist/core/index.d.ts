@@ -1,5 +1,5 @@
-import { FlowChat } from './core/middle/flowChat';
-import { FlowManager } from './core/middle/flowManager';
+import { FlowChat } from './middle/flowChat';
+import { FlowManager } from './middle/flowManager';
 declare const flowManager: FlowManager;
 declare const flowChat: FlowChat;
 export { flowManager, flowChat };

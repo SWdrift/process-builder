@@ -1,11 +1,11 @@
-import { FlowChat } from "./core/middle/flowChat";
-import { FlowManager } from "./core/middle/flowManager";
+import { FlowChat } from "./middle/flowChat";
+import { FlowManager } from "./middle/flowManager";
 
-import { NodeManager } from "./core/module/nodeManager";
-import { Agent, AgentWenxin } from "./core/module/agent";
-import { ProcessActuator } from "./core/module/processActuator";
-import { ProcessManager } from "./core/module/processManager";
-import { ProcessParser } from "./core/module/processParser";
+import { NodeManager } from "./module/nodeManager";
+import { Agent, AgentWenxin } from "./module/agent";
+import { ProcessActuator } from "./module/processActuator";
+import { ProcessManager } from "./module/processManager";
+import { ProcessParser } from "./module/processParser";
 
 const url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro";
 const accessToken = "24.1e34beb9496661e0aaca24a671736c24.2592000.1727444856.282335-60067339";
