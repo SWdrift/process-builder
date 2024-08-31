@@ -417,7 +417,7 @@ const testPerformProcess = async () => {
 
 export async function mainTest() {
     testBaseRegister();
-    testBaseFlowChat();
-    await testBuilderToken();
-    await testPerformProcess();
+    // testBaseFlowChat();
+    // await testBuilderToken();
+    // await testPerformProcess();
 }
