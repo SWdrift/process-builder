@@ -5,12 +5,13 @@ import { Validator } from "./service/validator";
 import { GraphDrive } from "./service/graphDrive";
 
 export class ProcessActuator implements IProcessActuator {
-    constructor(
-        private nodeManager: INodeManager,
-        private graphDrive: GraphDrive = new GraphDrive(),
-        private executor: Executor = new Executor(nodeManager),
-        private validator: Validator = new Validator(nodeManager, graphDrive)
-    ) {}
+    private executor: Executor;
+    private validator: Validator;
+
+    constructor(nodeManager: INodeManager, graphDrive: GraphDrive = new GraphDrive()) {
+        (this.executor = new Executor(nodeManager)),
+            (this.validator = new Validator(nodeManager, graphDrive));
+    }
 
     async execute(process: IEntProcess): Promise<any | undefined> {
         const checkResult = this.validator.check(process);

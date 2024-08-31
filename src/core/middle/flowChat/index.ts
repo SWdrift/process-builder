@@ -9,12 +9,11 @@ export type { IAgent };
 
 export class FlowChat implements IFlowChat {
     sessionHistory: IEntSession[] = [];
+    private actionSession: ActionSession;
+    constructor(agent: IAgent, flowManager: IFlowManager) {
+        this.actionSession = new ActionSession(agent, flowManager);
+    }
 
-    constructor(
-        private agent: IAgent,
-        private flowManager: IFlowManager,
-        private actionSession: ActionSession = new ActionSession(agent, flowManager)
-    ) {}
     async send(text: string): Promise<IEntSession> {
         const session = await this.actionSession.chatSingle(text);
         this.sessionHistory.push(session);

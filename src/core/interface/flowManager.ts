@@ -1,3 +1,5 @@
+import { Fn } from "../public/types/global";
+
 /**
  * 方法、常量注册接口
  *

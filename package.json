@@ -1,22 +1,42 @@
 {
-  "name": "app2",
-  "private": true,
-  "version": "0.0.0",
+  "name": "flowexpress",
+  "private": false,
+  "version": "1.0.0",
+  "description": "FlowExpress 是一个由 AI 驱动的流程构建器，为应用提供自然语言接口，自动构建并调用应用中的功能。为开发人员提供无缝的流程构建接口，只需定义好基本的节点，剩下的交给 FlowExpress 。",
   "type": "module",
+  "main": "dist/flowexpress.cjs.js",
+  "module": "dist/flowexpress.es.js",
+  "browser": "dist/flowexpress.es.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.7.5",
-    "vue": "^3.4.37"
+    "axios": "^1.7.5"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.1.2",
     "prettier": "^3.3.3",
     "typescript": "^5.5.3",
     "vite": "^5.4.1",
-    "vue-tsc": "^2.0.29"
-  }
+    "vite-plugin-dts": "^4.0.3",
+    "vue-tsc": "^2.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SWdrift/flow-express.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SWdrift/flow-express/issues"
+  },
+  "homepage": "https://github.com/SWdrift/flow-express#readme",
+  "keywords": [
+    "typescript",
+    "ai",
+    "llm",
+    "prompt"
+  ],
+  "author": "太阳风漂流<cczxyee@gmail.com>",
+  "license": "MIT"
 }

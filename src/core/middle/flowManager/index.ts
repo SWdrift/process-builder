@@ -1,4 +1,5 @@
 import { IFlowManager, ValueDescribe, FnDescribe, EnumNode } from "../../interface/flowManager";
+import { Fn } from "../../public/types/global";
 import { ActionValidate } from "./action/actionValidate";
 
 import { EntNode } from "./entity/node";

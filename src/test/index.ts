@@ -1,4 +1,4 @@
-import { flowChat, flowManager } from "../core/index";
+import { flowChat, flowManager } from "../index";
 
 const testBaseRegister = () => {
     const test1 = (message: string) => {
@@ -416,8 +416,8 @@ const testPerformProcess = async () => {
 };
 
 export async function mainTest() {
-    // testBaseRegister();
-    // testBaseFlowChat();
-    // await testBuilderToken();
+    testBaseRegister();
+    testBaseFlowChat();
+    await testBuilderToken();
     await testPerformProcess();
 }

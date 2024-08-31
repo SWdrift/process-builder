@@ -1,11 +1,13 @@
 import { ValueDescribe, FnDescribe } from "../../../interface/flowManager";
 import { logger } from "../../../public/module/logger";
+import { Fn } from "../../../public/types/global";
 import { INodeManager } from "../interface/nodeManager";
 
 export class ActionValidate {
     constructor(public nodeManager: INodeManager) {}
 
-    isRegisterMethodOk<T extends Fn>(target: T, describe: FnDescribe<T>): boolean {
+    isRegisterMethodOk<T extends Fn>(_target: T, describe: FnDescribe<T>): boolean {
+        //TODO: 检查 _target 是否符合要求
         if (this.nodeManager.getNodeById(describe.id)) {
             logger.record(
                 `method  ${describe.id} registe error, method id already exists`,
@@ -41,7 +43,8 @@ export class ActionValidate {
         return true;
     }
 
-    isRegisterValueOk<T extends Object>(target: T, describe: ValueDescribe): boolean {
+    isRegisterValueOk<T extends Object>(_target: T, describe: ValueDescribe): boolean {
+        //TODO: 检查 _target 是否符合要求
         if (this.nodeManager.getNodeById(describe.id)) {
             logger.record(
                 `constant  ${describe.id} registe error, constant id already exists`,
