@@ -1,12 +1,12 @@
 {
-  "name": "flowexpress",
+  "name": "flowllm",
   "private": false,
   "version": "1.0.0",
-  "description": "FlowExpress 是一个由 AI 驱动的流程构建器，为应用提供自然语言接口，自动构建并调用应用中的功能。为开发人员提供无缝的流程构建接口，只需定义好基本的节点，剩下的交给 FlowExpress 。",
+  "description": "FlowLLM 是一个由 AI 驱动的流程构建器，为应用提供自然语言接口，自动构建并调用应用中的功能。为开发人员提供无缝的流程构建接口，只需定义好基本的节点，剩下的交给 FlowLLM 。",
   "type": "module",
-  "main": "dist/flowexpress.cjs.js",
-  "module": "dist/flowexpress.es.js",
-  "browser": "dist/flowexpress.es.js",
+  "main": "dist/flowllm.cjs.js",
+  "module": "dist/flowllm.es.js",
+  "browser": "dist/flowllm.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "vite",
@@ -25,12 +25,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/SWdrift/flow-express.git"
+    "url": "git+https://github.com/SWdrift/flowllm.git"
   },
   "bugs": {
-    "url": "https://github.com/SWdrift/flow-express/issues"
+    "url": "https://github.com/SWdrift/flowllm/issues"
   },
-  "homepage": "https://github.com/SWdrift/flow-express#readme",
+  "homepage": "https://github.com/SWdrift/flowllm#readme",
   "keywords": [
     "typescript",
     "ai",

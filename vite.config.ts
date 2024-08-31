@@ -8,8 +8,8 @@ export default defineConfig({
         target: "es2020",
         lib: {
             entry: "src/core/index.ts",
-            name: "flowexpress",
-            fileName: (format) => `flowexpress.${format}.js`,
+            name: "flowllm",
+            fileName: (format) => `flowllm.${format}.js`,
             formats: ["es", "cjs", "umd"]
         },
         minify: true,

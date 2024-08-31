@@ -3,7 +3,7 @@ import { Fn } from "../public/types/global";
 /**
  * 方法、常量注册接口
  *
- * 将方法、常量注册到 FlowExpress 中，流构建器可以根据这些注册信息进行流的构建
+ * 将方法、常量注册到 FlowLLM 中，流构建器可以根据这些注册信息进行流的构建
  */
 export interface IFlowManager {
     /**
