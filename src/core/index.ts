@@ -1,25 +1,30 @@
 import { FlowChat } from "./middle/flowChat";
 import { FlowManager } from "./middle/flowManager";
-
 import { NodeManager } from "./module/nodeManager";
 import { Agent, AgentWenxin } from "./module/agent";
 import { ProcessActuator } from "./module/processActuator";
 import { ProcessManager } from "./module/processManager";
 import { ProcessParser } from "./module/processParser";
+import { IAgentApi } from "./module/agent/interface/agentApi";
 
-const url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro";
-const accessToken = "24.1e34beb9496661e0aaca24a671736c24.2592000.1727444856.282335-60067339";
+export { AgentWenxin };
 
-const nodeManager = new NodeManager();
-const flowAgentApi = new AgentWenxin({
-    url: url + "?access_token=" + accessToken
-});
-const agent = new Agent(nodeManager, flowAgentApi);
-const processActuator = new ProcessActuator(nodeManager);
-const processManager = new ProcessManager();
-const processParser = new ProcessParser(nodeManager);
-
-const flowManager = new FlowManager(nodeManager, processActuator, processManager, processParser);
-const flowChat = new FlowChat(agent, flowManager);
-
-export { flowManager, flowChat };
+export class FlowContainer {
+    manager: FlowManager;
+    chat: FlowChat;
+    constructor(public flowAgentApi: IAgentApi) {
+        const nodeManager = new NodeManager();
+        const agent = new Agent(nodeManager, flowAgentApi);
+        const processActuator = new ProcessActuator(nodeManager);
+        const processManager = new ProcessManager();
+        const processParser = new ProcessParser(nodeManager);
+        this.manager = new FlowManager(nodeManager, processActuator, processManager, processParser);
+        this.chat = new FlowChat(agent, this.manager);
+    }
+    getManager() {
+        return this.manager;
+    }
+    getChat() {
+        return this.chat;
+    }
+}

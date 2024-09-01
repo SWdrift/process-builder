@@ -1,4 +1,11 @@
-import { flowChat, flowManager } from "../core/index";
+import { AgentWenxin, FlowContainer } from "../core/index";
+
+const url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro";
+const accessToken = "24.1e34beb9496661e0aaca24a671736c24.2592000.1727444856.282335-60067339";
+const flowAgentApi = new AgentWenxin({
+    url: url + "?access_token=" + accessToken
+});
+const flowContainer = new FlowContainer(flowAgentApi);
 
 const testBaseRegister = () => {
     const test1 = (message: string) => {
@@ -13,7 +20,7 @@ const testBaseRegister = () => {
         return "test message";
     };
 
-    flowManager.registerMethodNode(test1, {
+    flowContainer.manager.registerMethodNode(test1, {
         id: "test1",
         describe: "打印测试信息在控制台",
         return: undefined,
@@ -24,7 +31,7 @@ const testBaseRegister = () => {
             }
         ]
     });
-    flowManager.registerMethodNode(test2, {
+    flowContainer.manager.registerMethodNode(test2, {
         id: "test2",
         describe: "打印测试信息在控制台",
         return: {
@@ -42,7 +49,7 @@ const testBaseRegister = () => {
             }
         ]
     });
-    flowManager.registerMethodNode(getTestMessage, {
+    flowContainer.manager.registerMethodNode(getTestMessage, {
         id: "getTestMessage",
         describe: "获取测试消息",
         return: {
@@ -51,11 +58,11 @@ const testBaseRegister = () => {
         },
         params: []
     });
-    console.log(flowManager.getAllNodes());
+    console.log(flowContainer.manager.getAllNodes());
 };
 
 const testBaseFlowChat = async () => {
-    const result = await flowChat.send("打印一个消息在控制台");
+    const result = await flowContainer.chat.send("打印一个消息在控制台");
     if (result) {
         console.log(result);
     }
@@ -103,14 +110,14 @@ const testBuilderToken = async () => {
     };
 
     const registerImageProcessingNodes = () => {
-        flowManager.registerMethodNode(loadImage, {
+        flowContainer.manager.registerMethodNode(loadImage, {
             id: "node1",
             describe: "加载图像",
             return: { id: "imageData", describe: "加载的图像数据" },
             params: [{ id: "filePath", describe: "图像文件路径" }]
         });
 
-        flowManager.registerMethodNode(applyFilter, {
+        flowContainer.manager.registerMethodNode(applyFilter, {
             id: "node2",
             describe: "应用滤镜",
             return: { id: "filteredImage", describe: "滤镜处理后的图像数据" },
@@ -120,7 +127,7 @@ const testBuilderToken = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(saveImage, {
+        flowContainer.manager.registerMethodNode(saveImage, {
             id: "node3",
             describe: "保存图像",
             return: { id: "saveStatus", describe: "保存状态" },
@@ -130,7 +137,7 @@ const testBuilderToken = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(adjustBrightness, {
+        flowContainer.manager.registerMethodNode(adjustBrightness, {
             id: "node4",
             describe: "调整图像亮度",
             return: { id: "brightenedImage", describe: "调整后的图像数据" },
@@ -140,7 +147,7 @@ const testBuilderToken = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(mergeImages, {
+        flowContainer.manager.registerMethodNode(mergeImages, {
             id: "node5",
             describe: "合并图像",
             return: { id: "mergedImage", describe: "合并后的图像数据" },
@@ -150,7 +157,7 @@ const testBuilderToken = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(cropImage, {
+        flowContainer.manager.registerMethodNode(cropImage, {
             id: "node6",
             describe: "裁剪图像",
             return: { id: "croppedImage", describe: "裁剪后的图像数据" },
@@ -160,7 +167,7 @@ const testBuilderToken = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(generateThumbnail, {
+        flowContainer.manager.registerMethodNode(generateThumbnail, {
             id: "node7",
             describe: "生成缩略图",
             return: { id: "thumbnail", describe: "生成的缩略图" },
@@ -170,7 +177,7 @@ const testBuilderToken = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(rotateImage, {
+        flowContainer.manager.registerMethodNode(rotateImage, {
             id: "node8",
             describe: "图像旋转",
             return: { id: "rotatedImage", describe: "旋转后的图像数据" },
@@ -190,37 +197,37 @@ const testBuilderToken = async () => {
     const savePath = "/path/to/save.jpg";
 
     const registerImageProcessingValues = () => {
-        flowManager.registerValueNode(grayFilter, {
+        flowContainer.manager.registerValueNode(grayFilter, {
             id: "value1",
             describe: "滤镜类型 - 灰度滤镜"
         });
 
-        flowManager.registerValueNode(highBrightness, {
+        flowContainer.manager.registerValueNode(highBrightness, {
             id: "value2",
             describe: "亮度值 - 高亮度"
         });
 
-        flowManager.registerValueNode(cropAreaExample, {
+        flowContainer.manager.registerValueNode(cropAreaExample, {
             id: "value3",
             describe: "裁剪区域 - 示例区域"
         });
 
-        flowManager.registerValueNode(thumbnailSize, {
+        flowContainer.manager.registerValueNode(thumbnailSize, {
             id: "value4",
             describe: "缩略图尺寸 - 100x100"
         });
 
-        flowManager.registerValueNode(rotationAngle, {
+        flowContainer.manager.registerValueNode(rotationAngle, {
             id: "value5",
             describe: "旋转角度 - 90度"
         });
 
-        flowManager.registerValueNode(imagePath, {
+        flowContainer.manager.registerValueNode(imagePath, {
             id: "value6",
             describe: "图像文件路径"
         });
 
-        flowManager.registerValueNode(savePath, {
+        flowContainer.manager.registerValueNode(savePath, {
             id: "value7",
             describe: "图像保存路径"
         });
@@ -228,13 +235,13 @@ const testBuilderToken = async () => {
 
     registerImageProcessingNodes();
     registerImageProcessingValues();
-    console.log(flowManager.getAllNodes());
+    console.log(flowContainer.manager.getAllNodes());
 
-    console.log(await flowChat.send("应用灰度滤镜并保存图像"));
-    // console.log(await flowChat.send("旋转图像并生成缩略图"));
-    console.log(await flowChat.send("调整亮度、应用反转滤镜并保存"));
-    // console.log(await flowChat.send("合并两张图像并旋转结果"));
-    // console.log(await flowChat.send("裁剪图像并应用滤镜"));
+    console.log(await flowContainer.chat.send("应用灰度滤镜并保存图像"));
+    // console.log(await flowContainer.chat.send("旋转图像并生成缩略图"));
+    console.log(await flowContainer.chat.send("调整亮度、应用反转滤镜并保存"));
+    // console.log(await flowContainer.chat.send("合并两张图像并旋转结果"));
+    // console.log(await flowContainer.chat.send("裁剪图像并应用滤镜"));
 };
 
 const testPerformProcess = async () => {
@@ -279,14 +286,14 @@ const testPerformProcess = async () => {
     };
 
     const registerImageProcessingNodes = () => {
-        flowManager.registerMethodNode(loadImage, {
+        flowContainer.manager.registerMethodNode(loadImage, {
             id: "node1",
             describe: "加载图像",
             return: { id: "imageData", describe: "加载的图像数据" },
             params: [{ id: "filePath", describe: "图像文件路径" }]
         });
 
-        flowManager.registerMethodNode(applyFilter, {
+        flowContainer.manager.registerMethodNode(applyFilter, {
             id: "node2",
             describe: "应用滤镜",
             return: { id: "filteredImage", describe: "滤镜处理后的图像数据" },
@@ -296,7 +303,7 @@ const testPerformProcess = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(saveImage, {
+        flowContainer.manager.registerMethodNode(saveImage, {
             id: "node3",
             describe: "保存图像",
             return: { id: "saveStatus", describe: "保存状态" },
@@ -306,7 +313,7 @@ const testPerformProcess = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(adjustBrightness, {
+        flowContainer.manager.registerMethodNode(adjustBrightness, {
             id: "node4",
             describe: "调整图像亮度",
             return: { id: "brightenedImage", describe: "调整后的图像数据" },
@@ -316,7 +323,7 @@ const testPerformProcess = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(mergeImages, {
+        flowContainer.manager.registerMethodNode(mergeImages, {
             id: "node5",
             describe: "合并图像",
             return: { id: "mergedImage", describe: "合并后的图像数据" },
@@ -326,7 +333,7 @@ const testPerformProcess = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(cropImage, {
+        flowContainer.manager.registerMethodNode(cropImage, {
             id: "node6",
             describe: "裁剪图像",
             return: { id: "croppedImage", describe: "裁剪后的图像数据" },
@@ -336,7 +343,7 @@ const testPerformProcess = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(generateThumbnail, {
+        flowContainer.manager.registerMethodNode(generateThumbnail, {
             id: "node7",
             describe: "生成缩略图",
             return: { id: "thumbnail", describe: "生成的缩略图" },
@@ -346,7 +353,7 @@ const testPerformProcess = async () => {
             ]
         });
 
-        flowManager.registerMethodNode(rotateImage, {
+        flowContainer.manager.registerMethodNode(rotateImage, {
             id: "node8",
             describe: "图像旋转",
             return: { id: "rotatedImage", describe: "旋转后的图像数据" },
@@ -366,37 +373,37 @@ const testPerformProcess = async () => {
     const savePath = "/path/to/save.jpg";
 
     const registerImageProcessingValues = () => {
-        flowManager.registerValueNode(grayFilter, {
+        flowContainer.manager.registerValueNode(grayFilter, {
             id: "value1",
             describe: "滤镜类型 - 灰度滤镜"
         });
 
-        flowManager.registerValueNode(highBrightness, {
+        flowContainer.manager.registerValueNode(highBrightness, {
             id: "value2",
             describe: "亮度值 - 高亮度"
         });
 
-        flowManager.registerValueNode(cropAreaExample, {
+        flowContainer.manager.registerValueNode(cropAreaExample, {
             id: "value3",
             describe: "裁剪区域 - 示例区域"
         });
 
-        flowManager.registerValueNode(thumbnailSize, {
+        flowContainer.manager.registerValueNode(thumbnailSize, {
             id: "value4",
             describe: "缩略图尺寸 - 100x100"
         });
 
-        flowManager.registerValueNode(rotationAngle, {
+        flowContainer.manager.registerValueNode(rotationAngle, {
             id: "value5",
             describe: "旋转角度 - 90度"
         });
 
-        flowManager.registerValueNode(imagePath, {
+        flowContainer.manager.registerValueNode(imagePath, {
             id: "value6",
             describe: "图像文件路径"
         });
 
-        flowManager.registerValueNode(savePath, {
+        flowContainer.manager.registerValueNode(savePath, {
             id: "value7",
             describe: "图像保存路径"
         });
@@ -404,15 +411,15 @@ const testPerformProcess = async () => {
 
     registerImageProcessingNodes();
     registerImageProcessingValues();
-    console.log(flowManager.getAllNodes());
+    console.log(flowContainer.manager.getAllNodes());
 
-    // console.log(await flowChat.send("应用灰度滤镜并保存图像"));
-    // console.log(await flowChat.send("旋转图像并生成缩略图"));
-    console.log(await flowChat.send("调整亮度、应用反转滤镜并保存"));
-    // console.log(await flowChat.send("合并两张图像并旋转结果"));
-    // console.log(await flowChat.send("裁剪图像并应用滤镜"));
+    // console.log(await flowContainer.chat.send("应用灰度滤镜并保存图像"));
+    // console.log(await flowContainer.chat.send("旋转图像并生成缩略图"));
+    console.log(await flowContainer.chat.send("调整亮度、应用反转滤镜并保存"));
+    // console.log(await flowContainer.chat.send("合并两张图像并旋转结果"));
+    // console.log(await flowContainer.chat.send("裁剪图像并应用滤镜"));
 
-    flowManager.performProcess();
+    flowContainer.manager.performProcess();
 };
 
 export async function mainTest() {
