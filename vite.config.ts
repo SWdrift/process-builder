@@ -8,7 +8,7 @@ export default defineConfig({
         target: "es2020",
         lib: {
             entry: "src/core/index.ts",
-            name: "flowllm",
+            name: "processBuilder",
             fileName: (format) => `processBuilder.${format}.js`,
             formats: ["es", "cjs", "umd"]
         },
