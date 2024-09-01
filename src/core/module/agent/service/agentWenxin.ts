@@ -4,7 +4,8 @@ import { post } from "../../../public/module/api";
 import { logger } from "../../../public/module/logger";
 
 interface IConfig {
-    url: string;
+    baseUrl?: string;
+    accessToken: string;
 }
 
 interface Response {
@@ -14,7 +15,17 @@ interface Response {
 }
 
 export class AgentWenxin implements IAgentApi {
-    constructor(public config: IConfig) {}
+    public url: string;
+    constructor(public config: IConfig) {
+        let url = "";
+        if (config.baseUrl) {
+            url = config.baseUrl;
+        } else {
+            url =
+                "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro";
+        }
+        this.url = this.getRequestUrl(url, config.accessToken);
+    }
     async requestSingle(
         message: string,
         options?: { system?: string }
@@ -29,7 +40,7 @@ export class AgentWenxin implements IAgentApi {
                 ],
                 system: options?.system || ""
             };
-            const response = await post<Response>(this.config.url, request);
+            const response = await post<Response>(this.url, request);
             return {
                 id: response.data.id,
                 data: response.data.result,
@@ -41,6 +52,11 @@ export class AgentWenxin implements IAgentApi {
             };
         } catch (error) {
             logger.record(`The request failed: ${error}`, logger.Level.Error);
+            throw error;
         }
+    }
+
+    private getRequestUrl(url: string, accessToken: string) {
+        return `${url}?access_token=${accessToken}`;
     }
 }

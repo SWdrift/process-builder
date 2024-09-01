@@ -1,9 +1,8 @@
 import { AgentWenxin, FlowContainer } from "../core/index";
 
-const url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro";
 const accessToken = "24.1e34beb9496661e0aaca24a671736c24.2592000.1727444856.282335-60067339";
 const flowAgentApi = new AgentWenxin({
-    url: url + "?access_token=" + accessToken
+    accessToken
 });
 const flowContainer = new FlowContainer({ agent: flowAgentApi });
 
