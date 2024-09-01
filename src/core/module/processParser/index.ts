@@ -1,5 +1,5 @@
-import { IEntProcess } from "../../interface/flowManager";
-import { IProcessParser, INodeManager } from "../../middle/flowManager";
+import { IEntProcess } from "../../interface/manager";
+import { IProcessParser, INodeManager } from "../../middle/manager";
 import { FlowStringParser } from "./service/stringParser";
 
 export class ProcessParser implements IProcessParser {

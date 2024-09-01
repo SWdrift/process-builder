@@ -1,15 +1,15 @@
-import { FlowChat } from "./middle/flowChat";
-import { FlowManager } from "./middle/flowManager";
-import { NodeManager } from "./module/nodeManager";
+import { FlowChat } from "./middle/chat";
+import { FlowManager } from "./middle/manager";
+import { NodeManager } from "./module/processNode";
 import { Agent, AgentWenxin } from "./module/agent";
 import { ProcessActuator } from "./module/processActuator";
-import { ProcessManager } from "./module/processManager";
+import { ProcessManager } from "./module/processStorage";
 import { ProcessParser } from "./module/processParser";
 import { FlowContainerConfig } from "./index.d";
 
 export { AgentWenxin };
 
-export class FlowContainer {
+export class ProcessContainer {
     manager: FlowManager;
     chat: FlowChat;
     constructor(config: FlowContainerConfig) {

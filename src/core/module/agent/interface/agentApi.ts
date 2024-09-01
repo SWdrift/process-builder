@@ -1,4 +1,4 @@
-import { IEntMessage } from "../../../interface/flowChat";
+import { IEntMessage } from "../../../interface/chat";
 
 export interface IAgentApi {
     requestSingle(

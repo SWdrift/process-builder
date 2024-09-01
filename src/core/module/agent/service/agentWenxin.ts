@@ -1,4 +1,4 @@
-import { IEntMessage } from "../../../interface/flowChat";
+import { IEntMessage } from "../../../interface/chat";
 import { IAgentApi } from "../interface/agentApi";
 import { post } from "../../../public/module/api";
 import { logger } from "../../../public/module/logger";

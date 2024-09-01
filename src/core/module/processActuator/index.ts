@@ -1,5 +1,5 @@
-import { IEntProcess } from "../../interface/flowManager";
-import { INodeManager, IProcessActuator } from "../../middle/flowManager";
+import { IEntProcess } from "../../interface/manager";
+import { INodeManager, IProcessActuator } from "../../middle/manager";
 import { Executor } from "./service/executor";
 import { Validator } from "./service/validator";
 import { GraphDrive } from "./service/graphDrive";

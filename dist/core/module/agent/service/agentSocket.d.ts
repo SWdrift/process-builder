@@ -1,4 +1,4 @@
-import { IEntMessage } from '../../../interface/flowChat';
+import { IEntMessage } from '../../../interface/chat';
 import { IAgentApi } from '../interface/agentApi';
 export declare class AgentSocket {
     private api;

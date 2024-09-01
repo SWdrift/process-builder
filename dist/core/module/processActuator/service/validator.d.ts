@@ -1,5 +1,5 @@
-import { IEntProcess, IEntConnect, NodeDescribe } from '../../../interface/flowManager';
-import { INodeManager } from '../../../middle/flowManager';
+import { IEntProcess, IEntConnect, NodeDescribe } from '../../../interface/manager';
+import { INodeManager } from '../../../middle/manager';
 import { GraphDrive } from './graphDrive';
 interface SuccessResult {
     success: true;

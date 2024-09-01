@@ -1,13 +1,13 @@
 {
-  "name": "flowllm",
+  "name": "process-builder",
   "private": false,
-  "version": "1.0.0",
-  "description": "FlowLLM 是一个由 AI 驱动的流程构建器，为应用提供自然语言接口，自动构建并调用应用中的功能。为开发人员提供无缝的流程构建接口，只需定义好基本的节点，剩下的交给 FlowLLM 。",
+  "version": "0.0.0",
+  "description": "ProcessBuilder 是一个由 AI 驱动的流程构建器，为应用提供自然语言接口，自动构建并调用应用中的功能。为开发人员提供无缝的流程构建接口，只需定义好基本的节点，剩下的交给 ProcessBuilder 。",
   "type": "module",
-  "main": "dist/flowllm.cjs.js",
-  "module": "dist/flowllm.es.js",
-  "browser": "dist/flowllm.umd.js",
-  "umd:main": "dist/flowllm.umd.js",
+  "main": "dist/processBuilder.cjs.js",
+  "module": "dist/processBuilder.es.js",
+  "browser": "dist/processBuilder.umd.js",
+  "umd:main": "dist/processBuilder.umd.js",
   "types": "dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
@@ -28,12 +28,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SWdrift/flowllm.git"
+    "url": "git+https://github.com/SWdrift/process-builder.git"
   },
   "bugs": {
-    "url": "https://github.com/SWdrift/flowllm/issues"
+    "url": "https://github.com/SWdrift/process-builder/issues"
   },
-  "homepage": "https://github.com/SWdrift/flowllm#readme",
+  "homepage": "https://github.com/SWdrift/process-builder#readme",
   "keywords": [
     "typescript",
     "ai",

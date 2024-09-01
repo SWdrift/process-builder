@@ -1,5 +1,5 @@
-import { EnumNode, IEntConnect, IEntProcess, NodeDescribe } from "../../../interface/flowManager";
-import { EntNode, INodeManager } from "../../../middle/flowManager";
+import { EnumNode, IEntConnect, IEntProcess, NodeDescribe } from "../../../interface/manager";
+import { EntNode, INodeManager } from "../../../middle/manager";
 import { getNodeKey } from "../util/node";
 import { logger } from "../../../public/module/logger";
 

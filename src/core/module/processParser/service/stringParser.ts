@@ -1,5 +1,5 @@
-import { IEntProcess, IEntConnect, EnumNode, IEntNode } from "../../../interface/flowManager";
-import { INodeManager } from "../../../middle/flowManager";
+import { IEntProcess, IEntConnect, EnumNode, IEntNode } from "../../../interface/manager";
+import { INodeManager } from "../../../middle/manager";
 import { logger } from "../../../public/module/logger";
 
 export class FlowStringParser {

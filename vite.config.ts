@@ -9,7 +9,7 @@ export default defineConfig({
         lib: {
             entry: "src/core/index.ts",
             name: "flowllm",
-            fileName: (format) => `flowllm.${format}.js`,
+            fileName: (format) => `processBuilder.${format}.js`,
             formats: ["es", "cjs", "umd"]
         },
         minify: true,

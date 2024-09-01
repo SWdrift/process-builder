@@ -1,5 +1,7 @@
-import { FlowChat } from './middle/flowChat';
-import { FlowManager } from './middle/flowManager';
-declare const flowManager: FlowManager;
-declare const flowChat: FlowChat;
-export { flowManager, flowChat };
+import { IAgentApi } from './module/agent/interface/agentApi';
+export * from './interface/chat';
+export * from './interface/manager';
+
+export interface FlowContainerConfig {
+    agent: IAgentApi;
+}

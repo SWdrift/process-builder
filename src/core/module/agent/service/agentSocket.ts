@@ -1,5 +1,5 @@
-import { IEntMessage } from "../../../interface/flowChat";
-import { EntMessage } from "../../../middle/flowChat";
+import { IEntMessage } from "../../../interface/chat";
+import { EntMessage } from "../../../middle/chat";
 import { IAgentApi } from "../interface/agentApi";
 import { TOKEN_CONFIG } from "../setting/token";
 

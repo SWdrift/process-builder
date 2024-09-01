@@ -1,10 +1,10 @@
-import { AgentWenxin, FlowContainer } from "../core/index";
+import { AgentWenxin, ProcessContainer } from "../core/index";
 
 const accessToken = "24.1e34beb9496661e0aaca24a671736c24.2592000.1727444856.282335-60067339";
 const flowAgentApi = new AgentWenxin({
     accessToken
 });
-const flowContainer = new FlowContainer({ agent: flowAgentApi });
+const flowContainer = new ProcessContainer({ agent: flowAgentApi });
 
 const testBaseRegister = () => {
     const test1 = (message: string) => {
@@ -423,7 +423,7 @@ const testPerformProcess = async () => {
 
 export async function mainTest() {
     testBaseRegister();
-    // testBaseFlowChat();
-    // await testBuilderToken();
-    // await testPerformProcess();
+    testBaseFlowChat();
+    await testBuilderToken();
+    await testPerformProcess();
 }

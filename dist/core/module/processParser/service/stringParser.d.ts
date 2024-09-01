@@ -1,5 +1,5 @@
-import { IEntProcess } from '../../../interface/flowManager';
-import { INodeManager } from '../../../middle/flowManager';
+import { IEntProcess } from '../../../interface/manager';
+import { INodeManager } from '../../../middle/manager';
 export declare class FlowStringParser {
     private flowNode;
     constructor(flowNode: INodeManager);

@@ -1,5 +1,5 @@
-import { IEntProcess, NodeDescribe } from '../../../interface/flowManager';
-import { INodeManager } from '../../../middle/flowManager';
+import { IEntProcess, NodeDescribe } from '../../../interface/manager';
+import { INodeManager } from '../../../middle/manager';
 type NodeValueMap = {
     [key: string]: any;
 };

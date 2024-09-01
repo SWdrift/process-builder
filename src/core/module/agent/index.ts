@@ -1,6 +1,6 @@
-import { IEntMessage } from "../../interface/flowChat";
-import { IAgent } from "../../middle/flowChat";
-import { INodeManager } from "../../middle/flowManager";
+import { IEntMessage } from "../../interface/chat";
+import { IAgent } from "../../middle/chat";
+import { INodeManager } from "../../middle/manager";
 import { TokenBuilder } from "./service/tokenBuilder";
 import { AgentSocket } from "./service/agentSocket";
 import { IAgentApi } from "./interface/agentApi";

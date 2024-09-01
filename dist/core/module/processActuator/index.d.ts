@@ -1,5 +1,5 @@
-import { IEntProcess } from '../../interface/flowManager';
-import { INodeManager, IProcessActuator } from '../../middle/flowManager';
+import { IEntProcess } from '../../interface/manager';
+import { INodeManager, IProcessActuator } from '../../middle/manager';
 import { GraphDrive } from './service/graphDrive';
 export declare class ProcessActuator implements IProcessActuator {
     private executor;
