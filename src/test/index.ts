@@ -1,6 +1,12 @@
 import { AgentWenxin, ProcessContainer } from "../core/index";
+import { ENV } from "../setting/env";
 
-const accessToken = "24.1e34beb9496661e0aaca24a671736c24.2592000.1727444856.282335-60067339";
+const accessToken = ENV.VITE_AGENT_WENXIN_TOKEN
+    ? ENV.VITE_AGENT_WENXIN_TOKEN
+    : ENV.VITE_AGENT_TOKEN;
+if (!accessToken) {
+    throw new Error("请在环境变量中设置 AGENT_WENXIN_TOKEN 或者 AGENT_TOKEN");
+}
 const flowAgentApi = new AgentWenxin({
     accessToken
 });
