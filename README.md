@@ -81,7 +81,7 @@ flowManager.registerConstant(pi, {
     describe: 'The value of Pi.',
 });
 
-// 4. 尝试根据文本生成并执行流程
+// 4. 根据文本生成并执行流程
 (async () => {
     const processResult = await container.getChat().send("PI与自身二倍的差是多少?");
     console.log(processResult);  // 输出结果
@@ -142,3 +142,10 @@ pnpm install
 ```bash
 pnpm test
 ```
+
+#### TODO List
+
+-   [ ] 实现流程生成策略
+-   [ ] 多语言支持
+-   [ ] 类型支持
+-   [ ] 边界错误处理
