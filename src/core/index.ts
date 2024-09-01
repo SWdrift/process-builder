@@ -5,9 +5,13 @@ import { Agent, AgentWenxin } from "./module/agent";
 import { ProcessActuator } from "./module/processActuator";
 import { ProcessManager } from "./module/processStorage";
 import { ProcessParser } from "./module/processParser";
-import { ProcessContainerConfig } from "./index.d";
+import { IAgentApi } from "./module/agent/interface/agentApi";
 
 export { AgentWenxin };
+
+export interface ProcessContainerConfig {
+    agent: IAgentApi;
+}
 
 export class ProcessContainer {
     manager: FlowManager;
