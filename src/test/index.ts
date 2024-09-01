@@ -5,7 +5,7 @@ const accessToken = "24.1e34beb9496661e0aaca24a671736c24.2592000.1727444856.2823
 const flowAgentApi = new AgentWenxin({
     url: url + "?access_token=" + accessToken
 });
-const flowContainer = new FlowContainer(flowAgentApi);
+const flowContainer = new FlowContainer({ agent: flowAgentApi });
 
 const testBaseRegister = () => {
     const test1 = (message: string) => {
