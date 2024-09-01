@@ -56,7 +56,7 @@ function subtract(a: number, b: number): number {
 const pi = 3.14159;
 
 // 3. 注册函数与常量
-processContainer.manager.registerMethod(add, {
+processContainer.manager.registerMethodNode(add, {
     id: "add",
     describe: "将两数相加 a+b",
     params: [
@@ -66,7 +66,7 @@ processContainer.manager.registerMethod(add, {
     return: { id: "c", describe: "两数相加的结果" }
 });
 
-processContainer.manager.registerMethod(subtract, {
+processContainer.manager.registerMethodNode(subtract, {
     id: "subtract",
     describe: "将两数相减 a-b",
     params: [
@@ -76,15 +76,22 @@ processContainer.manager.registerMethod(subtract, {
     return: { id: "c", describe: "两数相减的结果" }
 });
 
-processContainer.manager.registerConstant(pi, {
+processContainer.manager.registerValueNode(pi, {
     id: "pi",
     describe: "圆周率PI"
 });
 
 // 4. 根据文本生成并执行流程
 (async () => {
-    const processResult = await processContainer.chat.send("PI与自身二倍的差是多少?");
-    console.log(processResult); // 输出结果
+    // 发送消息
+    const processResult1 = await processContainer.chat.send(
+        "PI与自身二倍的差是多少?"
+    );
+    console.log(processResult1);
+
+    // 执行流程
+    const processResult2 = processContainer.manager.performProcess();
+    console.log(processResult2);
 })();
 
 ```
@@ -111,7 +118,7 @@ processContainer.manager.registerConstant(pi, {
 
 | 方法/属性 | 传入参数 | 返回值 | 描述 |
 | --- | --- | --- | --- |
-| performProcess() | 无 | boolean（是否成功） | 执行当前流程，返回是否成功 |
+| performProcess() | 无 | boolean（是否成功） | 从流程队列中取出流程并执行当前流程，返回是否成功 |
 | addProcess(processString: string \| object) | 流程字符串或流程对象 | void | 添加流程字符串或流程对象 |
 | registerMethodNode<T extends Fn>(target: T, describe: FnDescribe<T>) | 方法对象，方法描述对象 | void | 注册方法节点 |
 | registerValueNode<T extends Object>(target: T, describe: ValueDescribe) | 常量对象，常量描述对象 | void | 注册常量节点 |
