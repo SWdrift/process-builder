@@ -35,14 +35,14 @@ const { AgentWenxin, ProcessContainer } = require("process-builder");
 #### 例子
 
 ```javascript
-const { AgentWenxin, ProcessContainer } = require("process-builder");
+import { AgentWenxin, ProcessContainer } from "process-builder";
 // const { AgentWenxin, ProcessContainer } = require("process-builder");  // 也可以使用ES模块
 
 // 1. 创建 ProcessContainer 实例
 const agent = new AgentWenxin({
     accessToken: "你的 access token"
 });
-const container = new ProcessContainer({ agent: flowAgentApi });
+const processContainer = new ProcessContainer({ agent });
 
 // 2. 定义一些函数与常量
 function add(a: number, b: number): number {
@@ -56,36 +56,37 @@ function subtract(a: number, b: number): number {
 const pi = 3.14159;
 
 // 3. 注册函数与常量
-flowManager.registerMethod(add, {
-    name: 'add',
-    describe: '将两数相加.',
+processContainer.manager.registerMethod(add, {
+    id: "add",
+    describe: "将两数相加 a+b",
     params: [
-        { id: 'a', describe: '数字1' },
-        { id: 'b', describe: '数字2' }
+        { id: "a", describe: "数字1" },
+        { id: "b", describe: "数字2" }
     ],
-    return: { type: '数字' },
+    return: { id: "c", describe: "两数相加的结果" }
 });
 
-flowManager.registerMethod(subtract, {
-    name: 'subtract',
-    describe: 'Subtracts second number from first.',
+processContainer.manager.registerMethod(subtract, {
+    id: "subtract",
+    describe: "将两数相减 a-b",
     params: [
-        { id: 'a', describe: '数字1' },
-        { id: 'b', describe: '数字2' }
+        { id: "a", describe: "数字1" },
+        { id: "b", describe: "数字2" }
     ],
-    return: { type: '数字' },
+    return: { id: "c", describe: "两数相减的结果" }
 });
 
-flowManager.registerConstant(pi, {
-    id: 'pi',
-    describe: 'The value of Pi.',
+processContainer.manager.registerConstant(pi, {
+    id: "pi",
+    describe: "圆周率PI"
 });
 
 // 4. 根据文本生成并执行流程
 (async () => {
-    const processResult = await container.getChat().send("PI与自身二倍的差是多少?");
-    console.log(processResult);  // 输出结果
+    const processResult = await processContainer.chat.send("PI与自身二倍的差是多少?");
+    console.log(processResult); // 输出结果
 })();
+
 ```
 
 #### API
@@ -94,15 +95,17 @@ flowManager.registerConstant(pi, {
 
 | 方法/属性 | 传入参数 | 返回值 | 描述 |
 | --- | --- | --- | --- |
-| constructor(config: FlowContainerConfig) | FlowContainerConfig 对象 | ProcessContainer 实例 | 构造函数，初始化 ProcessContainer 实例 |
+| constructor(config: ProcessContainerConfig) | ProcessContainerConfig 对象 | ProcessContainer 实例 | 构造函数，初始化 ProcessContainer 实例 |
+| manager | 无 | void | FlowManager 实例 |
+| chat | 无 | void | FlowChat 实例 |
 | getManager() | 无 | FlowManager 实例 | 获取 FlowManager 实例 |
 | getChat() | 无 | FlowChat 实例 | 获取 FlowChat 实例 |
 
-##### **FlowContainerConfig**
+##### **ProcessContainerConfig**
 
-| 方法/属性 | 传入参数       | 返回值 | 描述                                             |     |
-| --------- | -------------- | ------ | ------------------------------------------------ | --- |
-| agent     | IAgentApi 对象 | 无     | 配置项，指定使用的 Agent API，可以引入默认实现。 |     |
+| 方法/属性 | 传入参数       | 返回值 | 描述                                             |
+| --------- | -------------- | ------ | ------------------------------------------------ |
+| agent     | IAgentApi 对象 | 无     | 配置项，指定使用的 Agent API，可以引入默认实现。 |
 
 ##### **FlowManager**
 
@@ -149,3 +152,4 @@ pnpm test
 -   [ ] 多语言支持
 -   [ ] 类型支持
 -   [ ] 边界错误处理
+-   [ ] 添加更多默认 IAgentApi 实现
