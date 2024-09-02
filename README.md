@@ -107,6 +107,11 @@ processContainer.manager.registerValueNode(pi, {
 
 ```
 
+注意：
+
+1. 请替换 `你的 access token` 为你自己的 access token。
+2. 如果使用默认 IAgentApi 实现，请确保 CORS 已正确配置。
+
 #### API
 
 ##### **ProcessContainer**

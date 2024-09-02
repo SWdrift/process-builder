@@ -3,13 +3,19 @@ import { HttpServer } from "../../../public/module/api";
 import { logger } from "../../../public/module/logger";
 import { IAgentApi } from "../interface/agentApi";
 
+/**
+ * Agent 配置
+ *
+ * 更多属性配置请参阅 [百度智能云文档](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/clntwmv7t)。
+ */
 interface IConfig {
-    /** access token */
+    /**
+     * 鉴权 access_token
+     */
     accessToken: string;
     /**
-     * Wenxin Url
-     *
-     * @url 默认 ERNIE-4.0-8K https://cloud.baidu.com/doc/WENXINWORKSHOP/s/clntwmv7t
+     * ERNIE-4.0-8K Api
+     * @default "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro"
      */
     url?: string;
     [key: string]: any;
@@ -21,6 +27,10 @@ interface Response {
     created: number;
 }
 
+/**
+ * 基于 [ERNIE-4.0-8K](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/clntwmv7t) 的对话类
+ * 实现 [IAgentApi](../interface/agentApi.ts) 接口，提供与 ERNIE-4.0-8K API 进行交互的方法。
+ */
 export class AgentWenxin implements IAgentApi {
     public url: string;
     public httpServer: HttpServer;
@@ -42,7 +52,7 @@ export class AgentWenxin implements IAgentApi {
                         content: message
                     }
                 ],
-                system: options?.system || "",
+                system: options?.system || ""
             };
             const response = await this.httpServer.post<Response>(this.url, request);
             return {
