@@ -1,11 +1,18 @@
 import { IEntMessage } from "../../../interface/chat";
-import { IAgentApi } from "../interface/agentApi";
-import { post } from "../../../public/module/api";
+import { HttpServer } from "../../../public/module/api";
 import { logger } from "../../../public/module/logger";
+import { IAgentApi } from "../interface/agentApi";
 
 interface IConfig {
-    baseUrl?: string;
+    /** access token */
     accessToken: string;
+    /**
+     * Wenxin Url
+     *
+     * @url 默认 ERNIE-4.0-8K https://cloud.baidu.com/doc/WENXINWORKSHOP/s/clntwmv7t
+     */
+    url?: string;
+    [key: string]: any;
 }
 
 interface Response {
@@ -16,31 +23,28 @@ interface Response {
 
 export class AgentWenxin implements IAgentApi {
     public url: string;
+    public httpServer: HttpServer;
     constructor(public config: IConfig) {
-        let url = "";
-        if (config.baseUrl) {
-            url = config.baseUrl;
-        } else {
-            url =
-                "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro";
-        }
-        this.url = this.getRequestUrl(url, config.accessToken);
+        this.url = this.getRequestUrl(config);
+        this.httpServer = HttpServer.getInstance();
     }
+
     async requestSingle(
         message: string,
         options?: { system?: string }
     ): Promise<IEntMessage | undefined> {
         try {
             const request = {
+                ...this.config,
                 messages: [
                     {
                         role: "user",
                         content: message
                     }
                 ],
-                system: options?.system || ""
+                system: options?.system || "",
             };
-            const response = await post<Response>(this.url, request);
+            const response = await this.httpServer.post<Response>(this.url, request);
             return {
                 id: response.data.id,
                 data: response.data.result,
@@ -56,7 +60,10 @@ export class AgentWenxin implements IAgentApi {
         }
     }
 
-    private getRequestUrl(url: string, accessToken: string) {
-        return `${url}?access_token=${accessToken}`;
+    private getRequestUrl(config: IConfig) {
+        const url =
+            config.url ??
+            "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro";
+        return `${url}?access_token=${config.accessToken}`;
     }
 }

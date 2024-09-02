@@ -8,4 +8,4 @@ export declare class Agent implements IAgent {
     constructor(nodeStorage: INodeManager, agentApi: IAgentApi);
     sendMessage(message: IEntMessage): Promise<IEntMessage>;
 }
-export { AgentWenxin } from './service/agentWenxin';
+export * from './modules/agentWenxin';

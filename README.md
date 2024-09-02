@@ -40,7 +40,8 @@ import { AgentWenxin, ProcessContainer } from "process-builder";
 
 // 1. 创建 ProcessContainer 实例
 const agent = new AgentWenxin({
-    accessToken: "你的 access token"
+    accessToken: "你的 access token",
+    // 其他配置项
 });
 const processContainer = new ProcessContainer({ agent });
 
@@ -102,13 +103,13 @@ processContainer.manager.registerValueNode(pi, {
 
 | 方法/属性 | 传入参数 | 返回值 | 描述 |
 | --- | --- | --- | --- |
-| constructor(config: ProcessContainerConfig) | ProcessContainerConfig 对象 | ProcessContainer 实例 | 构造函数，初始化 ProcessContainer 实例 |
+| constructor(config: IModuleConfig) | IModuleConfig 对象 | ProcessContainer 实例 | 构造函数，初始化 ProcessContainer 实例 |
 | manager | 无 | void | FlowManager 实例 |
 | chat | 无 | void | FlowChat 实例 |
 | getManager() | 无 | FlowManager 实例 | 获取 FlowManager 实例 |
 | getChat() | 无 | FlowChat 实例 | 获取 FlowChat 实例 |
 
-##### **ProcessContainerConfig**
+##### **IModuleConfig**
 
 | 方法/属性 | 传入参数       | 返回值 | 描述                                             |
 | --------- | -------------- | ------ | ------------------------------------------------ |

@@ -20,4 +20,4 @@ export class Agent implements IAgent {
     }
 }
 
-export { AgentWenxin } from "./service/agentWenxin";
+export * from "./modules/agentWenxin";

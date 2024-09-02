@@ -1,10 +1,9 @@
 import { IEntMessage } from "../../../interface/chat";
+import { IHttpService } from "../../../public/module/api";
 
 export interface IAgentApi {
-    requestSingle(
-        message: string,
-        option?: RequestSingleConfig
-    ): Promise<IEntMessage | undefined>;
+    httpServer: IHttpService;
+    requestSingle(message: string, option?: RequestSingleConfig): Promise<IEntMessage | undefined>;
 }
 
 export interface RequestSingleConfig {

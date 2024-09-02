@@ -1,12 +1,9 @@
-import { ContentTypeEnum } from './enum/http';
-import { ApiConfig, IHttpService } from './interface/api';
+import { ContentTypeEnum } from '../enum/http';
+import { ApiConfig, IHttpService } from '../interface/api';
 export type { IHttpService };
 export declare class HttpServer implements IHttpService {
-    private static instance;
     private axiosInstance;
-    private constructor();
-    static getInstance(config?: ApiConfig): HttpServer;
-    private updateConfig;
+    constructor(config: ApiConfig);
     get<T>(url: string, params?: object): Promise<import('axios').AxiosResponse<T, any>>;
     post<T>(url: string, data?: object, headersType?: string, headers?: Record<string, string>): Promise<import('axios').AxiosResponse<T, any>>;
     patch<T>(url: string, data?: object, headersType?: string, headers?: Record<string, string>): Promise<import('axios').AxiosResponse<T, any>>;

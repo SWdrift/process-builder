@@ -5,18 +5,14 @@ import { Agent, AgentWenxin } from "./module/agent";
 import { ProcessActuator } from "./module/processActuator";
 import { ProcessManager } from "./module/processStorage";
 import { ProcessParser } from "./module/processParser";
-import { IAgentApi } from "./module/agent/interface/agentApi";
+import { IModuleConfig } from "./interface/config";
 
 export { AgentWenxin };
-
-export interface ProcessContainerConfig {
-    agent: IAgentApi;
-}
 
 export class ProcessContainer {
     manager: FlowManager;
     chat: FlowChat;
-    constructor(config: ProcessContainerConfig) {
+    constructor(config: IModuleConfig) {
         const nodeManager = new NodeManager();
         const agent = new Agent(nodeManager, config.agent);
         const processActuator = new ProcessActuator(nodeManager);

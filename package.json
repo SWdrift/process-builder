@@ -1,7 +1,7 @@
 {
   "name": "process-builder",
   "private": false,
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "ProcessBuilder 是一个由 AI 驱动的流程构建器，为应用提供自然语言接口，自动构建并调用应用中的功能。为开发人员提供无缝的流程构建接口，只需定义好基本的节点，剩下的交给 ProcessBuilder 。",
   "type": "module",
   "main": "dist/processBuilder.cjs.js",
@@ -9,7 +9,9 @@
   "browser": "dist/processBuilder.umd.js",
   "umd:main": "dist/processBuilder.umd.js",
   "types": "dist/core/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "test": "vite --mode test",
