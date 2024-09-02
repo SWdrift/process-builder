@@ -15,7 +15,7 @@ ProcessBuilder 是一个由 AI 驱动的流程构建器，旨在为应用程序�
 使用npm安装：
 
 ```bash
-$ npm install process-builder
+npm install process-builder
 ```
 
 安装后可以使用 `import` 或 `require` 引入模块。
@@ -38,14 +38,20 @@ const { AgentWenxin, ProcessContainer } = require("process-builder");
 import { AgentWenxin, ProcessContainer } from "process-builder";
 // const { AgentWenxin, ProcessContainer } = require("process-builder");  // 也可以使用ES模块
 
+
 // 1. 创建 ProcessContainer 实例
+
+// 使用默认的 IAgentApi 实现
 const agent = new AgentWenxin({
     accessToken: "你的 access token",
     // 其他配置项
 });
+// 实例化 ProcessContainer 对象
 const processContainer = new ProcessContainer({ agent });
 
+
 // 2. 定义一些函数与常量
+
 function add(a: number, b: number): number {
     return a + b;
 }
@@ -56,7 +62,9 @@ function subtract(a: number, b: number): number {
 
 const pi = 3.14159;
 
-// 3. 注册函数与常量
+
+// 3. 将函数与常量注册到 ProcessContainer 中
+
 processContainer.manager.registerMethodNode(add, {
     id: "add",
     describe: "将两数相加 a+b",
@@ -82,9 +90,11 @@ processContainer.manager.registerValueNode(pi, {
     describe: "圆周率PI"
 });
 
-// 4. 根据文本生成并执行流程
+
+// 4. 根据自然语言生成并执行流程
+
 (async () => {
-    // 发送消息
+    // 发送消息，使用自然语言
     const processResult1 = await processContainer.chat.send(
         "PI与自身二倍的差是多少?"
     );
@@ -123,15 +133,15 @@ processContainer.manager.registerValueNode(pi, {
 | addProcess(processString: string \| object) | 流程字符串或流程对象 | void | 添加流程字符串或流程对象 |
 | registerMethodNode<T extends Fn>(target: T, describe: FnDescribe<T>) | 方法对象，方法描述对象 | void | 注册方法节点 |
 | registerValueNode<T extends Object>(target: T, describe: ValueDescribe) | 常量对象，常量描述对象 | void | 注册常量节点 |
-| getNodeById(id: string) | 节点 ID（字符串） | Node（节点对象）或 null（如果未找到） | 根据 ID 获取节点 |
-| getAllNodes() | 无 | Node[]（节点对象数组） | 获取所有节点 |
+| getNodeById(id: string) | 节点 ID（字符串） | IEntNode（节点对象）或 undefine（如果未找到） | 根据 ID 获取节点 |
+| getAllNodes() | 无 | IEntNode[]（节点对象数组） | 获取所有节点 |
 
 ##### **FlowChat**
 
 | 方法/属性 | 传入参数 | 返回值 | 描述 |
 | --- | --- | --- | --- |
-| sessionHistory | 无 | Message[]（消息对象数组） | 会话历史记录，包含提问和回答 |
-| send(text: string) | 发送的消息（字符串） | Message（响应的消息对象）或 null | 发送消息，返回消息响应 |
+| sessionHistory | 无 | IEntSession[]（会话数组） | 会话历史记录，包含提问和回答 |
+| send(text: string) | 发送的消息（字符串） | Promise<IEntSession>（响应会话）或 null | 发送消息，返回消息响应 |
 
 #### 开发
 
@@ -161,3 +171,13 @@ pnpm test
 -   [ ] 类型支持
 -   [ ] 边界错误处理
 -   [ ] 添加更多默认 IAgentApi 实现
+
+#### 关于
+
+-   [Github](https://github.com/SWdrift/process-builder)
+-   [Gitee](https://gitee.com/CZXyee/process-builder)
+-   [npm](https://www.npmjs.com/package/process-builder)
+
+#### 协议
+
+[MIT](./LICENSE)

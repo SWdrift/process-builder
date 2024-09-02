@@ -33,7 +33,6 @@ export class FlowManager implements IManager {
             this.processManager.pushToQueue(process);
         }
     }
-
     registerMethodNode<T extends Fn>(target: T, describe: FnDescribe<T>): void {
         if (!this.actionValidate.isRegisterMethodOk(target, describe)) return;
         this.nodeStorage.register(new EntNode(target, describe, EnumNode.Method));
