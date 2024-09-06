@@ -1,5 +1,4 @@
-import { IManager, ValueDescribe, FnDescribe, EnumNode } from "../../interface/manager";
-import { Fn } from "../../public/types/global";
+import { IEntNode, IManager, UseNodeDefine, NodeDefine, EnumNode } from "../../interface/manager";
 import { ActionValidate } from "./action/actionValidate";
 
 import { EntNode } from "./entity/node";
@@ -33,18 +32,14 @@ export class FlowManager implements IManager {
             this.processManager.pushToQueue(process);
         }
     }
-    registerMethodNode<T extends Fn>(target: T, describe: FnDescribe<T>): void {
-        if (!this.actionValidate.isRegisterMethodOk(target, describe)) return;
-        this.nodeStorage.register(new EntNode(target, describe, EnumNode.Method));
+    registerNode<T>(target: T, define: UseNodeDefine<T>): void {
+        if (!this.actionValidate.isRegisterOk(target, define)) return;
+        this.nodeStorage.register(new EntNode(target, define));
     }
-    registerValueNode<T extends Object>(target: T, describe: ValueDescribe): void {
-        if (!this.actionValidate.isRegisterValueOk(target, describe)) return;
-        this.nodeStorage.register(new EntNode(target, describe, EnumNode.Value));
+    getNodeById<T extends EnumNode = EnumNode>(id: string): IEntNode<T> | undefined {
+        return this.nodeStorage.getNodeByName(id);
     }
-    getNodeById(id: string): EntNode<EnumNode> | undefined {
-        return this.nodeStorage.getNodeById(id);
-    }
-    getAllNodes(): EntNode<EnumNode>[] {
+    getAllNodes(): IEntNode[] {
         return this.nodeStorage.getAllNodes();
     }
 }

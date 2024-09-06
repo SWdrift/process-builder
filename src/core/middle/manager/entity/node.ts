@@ -1,18 +1,23 @@
-import { IEntNode } from "../../../interface/manager";
-import { EnumNode, DescribeType } from "../../../interface/manager";
+import { IEntNode, EnumNode } from "../../../interface/manager";
+import { NodeDefine } from "../../../interface/manager";
 
-export class EntNode<T extends EnumNode> implements IEntNode<EnumNode> {
+export class EntNode<T extends EnumNode> implements IEntNode {
     public id: string;
 
     constructor(
         public target: any,
-        public describe: DescribeType<T>,
-        public type: T
+        public define: NodeDefine<T>
     ) {
-        this.id = this.getId(describe);
+        this.id = this.getId(define);
     }
 
-    private getId(describe: DescribeType<T>): string {
-        return describe.id;
+    private getId(nodeDefine: NodeDefine<T>): string {
+        if (nodeDefine.type === "function") {
+            return nodeDefine.function.name;
+        }
+        if (nodeDefine.type === "constant") {
+            return nodeDefine.constant.name;
+        }
+        throw new Error("Invalid node type");
     }
 }

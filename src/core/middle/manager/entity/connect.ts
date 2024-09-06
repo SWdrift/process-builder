@@ -1,9 +1,9 @@
-import { IEntConnect, NodeDescribe } from "../../../interface/manager";
+import { IEntConnect, INodeIndex } from "../../../interface/manager";
 
 export class EntConnect implements IEntConnect {
     constructor(
-        public fromNode: NodeDescribe,
-        public toNode: NodeDescribe,
+        public fromNode: INodeIndex,
+        public toNode: INodeIndex,
         public toParam: string
     ) {}
 }

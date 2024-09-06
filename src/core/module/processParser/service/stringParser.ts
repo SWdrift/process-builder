@@ -83,8 +83,8 @@ export class FlowStringParser {
     }
 
     private validateNode(data: IEntConnect): boolean {
-        const fromNode = this.flowNode.getNodeById(data.fromNode.id);
-        const toNode = this.flowNode.getNodeById(data.toNode.id);
+        const fromNode = this.flowNode.getNodeByName(data.fromNode.name);
+        const toNode = this.flowNode.getNodeByName(data.toNode.name);
         if (!fromNode || !toNode) {
             logger.record(`string parser error, node not found`, logger.Level.Warn);
             return false;
@@ -96,16 +96,12 @@ export class FlowStringParser {
     }
 
     private validateParam(data: IEntNode<EnumNode>, paramId: string): boolean {
-        if (data.type !== EnumNode.Method) {
+        if (data.define.type !== EnumNode.Function) {
             return true;
         }
-        const node = data as IEntNode<EnumNode.Method>;
+        const node = data as IEntNode<EnumNode.Function>;
 
-        if (!Array.isArray(node.describe.params)) {
-            return false;
-        }
-        const param = node.describe.params.find((item) => item.id === paramId);
-        if (!param) {
+        if (!node.define.function.parameters.hasOwnProperty(paramId)) {
             logger.record(`string parser error, param not found`, logger.Level.Warn);
             return false;
         }

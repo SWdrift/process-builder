@@ -3,7 +3,7 @@ import {
     IEntConnect,
     EnumNode,
     IEntNode,
-    NodeDescribe
+    INodeIndex
 } from "../../../interface/manager";
 import { INodeManager } from "../../../middle/manager";
 import { GraphDrive } from "./graphDrive";
@@ -11,7 +11,7 @@ import { getNodeKey } from "../util/node";
 
 interface SuccessResult {
     success: true;
-    data: { process: IEntProcess; nodeDescribes: NodeDescribe[] };
+    data: { process: IEntProcess; nodeIndexs: INodeIndex[] };
 }
 
 interface FailureResult {
@@ -44,33 +44,36 @@ export class Validator {
         }
         return {
             success: true,
-            data: { process, nodeDescribes: nodes }
+            data: { process, nodeIndexs: nodes }
         };
     }
 
-    validateParams(connectList: IEntConnect[], nodes: NodeDescribe[]): boolean {
+    validateParams(connectList: IEntConnect[], nodes: INodeIndex[]): boolean {
         type ParamsPredicate = { [key: string]: boolean };
         type NodeContainer = { [key: string]: { id: string; params: ParamsPredicate } };
 
         // 获取节点连接参数
         const nodeContainer: NodeContainer = {};
         for (const node of nodes) {
-            const entNode = this.nodeManager.getNodeById(node.id);
+            const entNode = this.nodeManager.getNodeByName(node.name);
             if (!entNode) return false;
             const paramsPredicate: ParamsPredicate = {};
-            if (entNode.type === EnumNode.Method) {
-                const en = entNode as IEntNode<EnumNode.Method>;
-                for (const param of en.describe.params) {
-                    if (param.optional) {
+            const def = entNode.define;
+            if (def.type === EnumNode.Function) {
+                const en = entNode as IEntNode<EnumNode.Function>;
+                const params = en.define.function.parameters;
+                const paramKeys = Object.keys(params);
+                for (const paramKey of paramKeys) {
+                    if (!params.required.find((pk) => pk === paramKey)) {
                         continue;
                     } else {
-                        paramsPredicate[param.id] = true;
+                        paramsPredicate[paramKey] = true;
                     }
                 }
             }
-            if (entNode.type === EnumNode.Value) {
-                const en = entNode as IEntNode<EnumNode.Value>;
-                paramsPredicate[en.describe.id] = true;
+            if (def.type === EnumNode.Constant) {
+                const en = entNode as IEntNode<EnumNode.Constant>;
+                paramsPredicate[en.define.constant.name] = true;
             }
             nodeContainer[getNodeKey(node)] = { id: entNode.id, params: paramsPredicate };
         }

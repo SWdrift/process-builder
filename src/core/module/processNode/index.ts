@@ -7,7 +7,7 @@ export class NodeManager implements INodeManager {
     register(node: EntNode<EnumNode>): void {
         this.nodeStorage.saveNode(node);
     }
-    getNodeById<T extends EnumNode = EnumNode>(id: string): EntNode<T> | undefined {
+    getNodeByName<T extends EnumNode = EnumNode>(id: string): EntNode<T> | undefined {
         return this.nodeStorage.getNodeById(id) as EntNode<T>;
     }
     getAllNodes(): EntNode<EnumNode>[] {

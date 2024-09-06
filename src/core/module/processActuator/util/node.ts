@@ -1,5 +1,5 @@
-import { NodeDescribe } from "../../../interface/manager";
+import { INodeIndex } from "../../../interface/manager";
 
-export function getNodeKey(node: NodeDescribe): string {
-    return `${node.id}-${node.instanceId}`;
+export function getNodeKey(node: INodeIndex): string {
+    return `${node.name}-${node.instanceId}`;
 }

@@ -1,4 +1,4 @@
-import { ValueDescribe, FnDescribe } from "../../../interface/manager";
+import { NodeDefine, EnumNode } from "../../../interface/manager";
 import { logger } from "../../../public/module/logger";
 import { Fn } from "../../../public/types/global";
 import { IProcessNode } from "../interface/processNode";
@@ -6,36 +6,26 @@ import { IProcessNode } from "../interface/processNode";
 export class ActionValidate {
     constructor(public nodeManager: IProcessNode) {}
 
-    isRegisterMethodOk<T extends Fn>(_target: T, describe: FnDescribe<T>): boolean {
-        //TODO: 检查 _target 是否符合要求
-        if (this.nodeManager.getNodeById(describe.id)) {
-            logger.record(
-                `method  ${describe.id} registe error, method id already exists`,
-                logger.Level.Warn
-            );
-            return false;
-        }
-        if (describe.describe.length < 1) {
-            logger.record(
-                `method  ${describe.id} registe error, method describe is empty`,
-                logger.Level.Warn
-            );
-            return false;
-        }
-        if ((describe.params as ValueDescribe[]).length > 0) {
-            for (const param of describe.params as ValueDescribe[]) {
-                if (param.describe.length < 1) {
-                    logger.record(
-                        `method  ${describe.id} registe error, param ${param.id} describe is empty`,
-                        logger.Level.Warn
-                    );
-                    return false;
-                }
+    isRegisterOk<T>(target: T, define: NodeDefine): boolean {
+        if (define.type === "function") {
+            if (this.isRegisterMethodOk(target as Fn, define)) {
+                return true;
             }
         }
-        if (describe.return && describe.return.describe.length < 1) {
+        if (define.type === "constant") {
+            if (this.isRegisterValueOk(target as object, define)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    isRegisterMethodOk<T extends Fn>(_target: T, define: NodeDefine<EnumNode.Function>): boolean {
+        const def = define.function;
+        //TODO: 检查 _target 是否符合要求
+        if (this.nodeManager.getNodeByName(def.name)) {
             logger.record(
-                `method  ${describe.id} registe error, return describe is empty`,
+                `method ${def.name} registe error, method id already exists`,
                 logger.Level.Warn
             );
             return false;
@@ -43,18 +33,15 @@ export class ActionValidate {
         return true;
     }
 
-    isRegisterValueOk<T extends Object>(_target: T, describe: ValueDescribe): boolean {
+    isRegisterValueOk<T extends object>(
+        _target: T,
+        define: NodeDefine<EnumNode.Constant>
+    ): boolean {
+        const def = define.constant;
         //TODO: 检查 _target 是否符合要求
-        if (this.nodeManager.getNodeById(describe.id)) {
+        if (this.nodeManager.getNodeByName(def.name)) {
             logger.record(
-                `constant  ${describe.id} registe error, constant id already exists`,
-                logger.Level.Warn
-            );
-            return false;
-        }
-        if (describe.describe.length < 1) {
-            logger.record(
-                `method  ${describe.id} registe error, method describe is empty`,
+                `constant  ${def.name} registe error, constant id already exists`,
                 logger.Level.Warn
             );
             return false;

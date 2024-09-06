@@ -1,4 +1,4 @@
-import { EnumNode, IEntConnect, IEntProcess, NodeDescribe } from "../../../interface/manager";
+import { EnumNode, IEntConnect, IEntProcess, INodeIndex } from "../../../interface/manager";
 import { EntNode, INodeManager } from "../../../middle/manager";
 import { getNodeKey } from "../util/node";
 import { logger } from "../../../public/module/logger";
@@ -6,7 +6,7 @@ import { logger } from "../../../public/module/logger";
 // 节点值
 type NodeValueMap = { [key: string]: any };
 // 节点依赖值
-type NodeDepMap = { [key: string]: NodeDescribe };
+type NodeDepMap = { [key: string]: INodeIndex };
 
 /**
  * 执行器
@@ -23,10 +23,10 @@ export class Executor {
      */
     async run(processData: {
         process: IEntProcess;
-        nodeDescribes: NodeDescribe[];
+        nodeIndexs: INodeIndex[];
     }): Promise<NodeValueMap | undefined> {
         try {
-            return await this.executeNodes(processData.process, processData.nodeDescribes);
+            return await this.executeNodes(processData.process, processData.nodeIndexs);
         } catch (error) {
             logger.record(`The process execution failed, ${error}`, logger.Level.Warn);
             throw error;
@@ -35,11 +35,13 @@ export class Executor {
 
     async executeNodes(
         process: IEntProcess,
-        nodeDescribes: NodeDescribe[]
+        nodeIndexs: INodeIndex[]
     ): Promise<NodeValueMap | undefined> {
         const nodeValueMap: NodeValueMap = {}; // 节点值表
+        // 使用 connect 构建节点依赖表
+        // 通过 toNode 和 toParam、instanceId 构建节点依赖键 值为 fromNode
         const nodeDepMap: NodeDepMap = this.getNodeDepMap(process); // 节点依赖表
-        for (const nodeDescribe of nodeDescribes) {
+        for (const nodeDescribe of nodeIndexs) {
             const nodeKey = getNodeKey(nodeDescribe);
             nodeValueMap[nodeKey] = await this.getNodeValue(nodeDescribe, nodeValueMap, nodeDepMap);
         }
@@ -55,7 +57,7 @@ export class Executor {
     }
 
     private getNodeDepKey(connect: IEntConnect): string {
-        return `${connect.toNode.id}-${connect.toParam}-${connect.toNode.instanceId}`;
+        return `${connect.toNode.name}-${connect.toParam}-${connect.toNode.instanceId}`;
     }
 
     private buildNodeDepKey(nodeId: string, paramId: string, instanceId: number): string {
@@ -63,19 +65,19 @@ export class Executor {
     }
 
     private async getNodeValue(
-        nodeDescribe: NodeDescribe,
+        nodeIndex: INodeIndex,
         nodeValueMap: NodeValueMap,
         nodeDepMap: NodeDepMap
     ): Promise<any> {
-        const nodeInstance = this.nodeManager.getNodeById(nodeDescribe.id);
-        if (!nodeInstance) throw new Error(`Node not found: ${nodeDescribe.id}`);
-        if (nodeInstance.type === EnumNode.Value) {
+        const nodeInstance = this.nodeManager.getNodeByName(nodeIndex.name);
+        if (!nodeInstance) throw new Error(`Node not found: ${nodeIndex.name}`);
+        if (nodeInstance.define.type === EnumNode.Constant) {
             return nodeInstance.target;
         }
-        if (nodeInstance.type === EnumNode.Method) {
+        if (nodeInstance.define.type === EnumNode.Function) {
             return await this.executeFunction(
-                nodeDescribe,
-                nodeInstance as EntNode<EnumNode.Method>,
+                nodeIndex,
+                nodeInstance as EntNode<EnumNode.Function>,
                 nodeValueMap,
                 nodeDepMap
             );
@@ -83,14 +85,14 @@ export class Executor {
     }
 
     private async executeFunction(
-        nodeDescribe: NodeDescribe,
-        nodeInstance: EntNode<EnumNode.Method>,
+        nodeIndex: INodeIndex,
+        nodeInstance: EntNode<EnumNode.Function>,
         nodeValueMap: NodeValueMap,
         nodeDepMap: NodeDepMap
     ) {
-        if (nodeInstance.describe.params.length > 0) {
+        if (Object.keys(nodeInstance.define.function.parameters).length > 0) {
             const paramValues = this.getParamValues(
-                nodeDescribe,
+                nodeIndex,
                 nodeInstance,
                 nodeValueMap,
                 nodeDepMap
@@ -102,21 +104,29 @@ export class Executor {
     }
 
     private getParamValues(
-        nodeDescribe: NodeDescribe,
-        nodeInstance: EntNode<EnumNode.Method>,
+        nodeIndex: INodeIndex,
+        nodeInstance: EntNode<EnumNode.Function>,
         nodeValueMap: NodeValueMap,
         nodeDepMap: NodeDepMap
     ) {
-        const paramKays = nodeInstance.describe.params.map((param) => {
-            return this.buildNodeDepKey(nodeDescribe.id, param.id, nodeDescribe.instanceId);
+        const def = nodeInstance.define.function;
+        // 构建节点依赖 Keys，并从节点值表中获取依赖节点的值
+        // nodeDepKey 为节点依赖 key，paramName 为参数名 用于判断参数是否可选
+        const paramKays = Object.keys(def.parameters).map((paramName) => {
+            return {
+                nodeDepKey: this.buildNodeDepKey(nodeIndex.name, paramName, nodeIndex.instanceId),
+                paramName
+            };
         });
         const paramValues = paramKays.map((key) => {
-            const depNode = nodeDepMap[key];
+            // 获取依赖的节点
+            const depNode = nodeDepMap[key.nodeDepKey];
             if (!depNode) throw new Error(`Dependency node not found: ${key}`);
+            // 从节点值表获取依赖节点的值
             const depNodeValue = nodeValueMap[getNodeKey(depNode)];
             if (!depNodeValue) {
                 // 如果不存在依赖节点的值，则判断是否可选参数，如果可选参数，则返回 undefined，否则抛出异常
-                if (nodeInstance.describe.params.find((param) => param.optional)) {
+                if (this.isOptionalParam(nodeInstance, key.paramName)) {
                     return undefined;
                 } else {
                     throw new Error(`Dependency value not found: ${key}`);
@@ -125,5 +135,14 @@ export class Executor {
             return depNodeValue;
         });
         return paramValues;
+    }
+
+    private isOptionalParam(nodeInstance: EntNode<EnumNode.Function>, paramName: string): boolean {
+        const def = nodeInstance.define.function;
+        if (def.parameters.required.find((name) => name === paramName)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

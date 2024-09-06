@@ -1,8 +1,8 @@
-import { NodeDescribe } from "../../../interface/manager";
+import { INodeIndex } from "../../../interface/manager";
 
 export type Connection = {
-    fromNode: NodeDescribe;
-    toNode: NodeDescribe;
+    fromNode: INodeIndex;
+    toNode: INodeIndex;
 };
 
 export type ConnectionKey = {
@@ -11,7 +11,7 @@ export type ConnectionKey = {
 };
 
 export class GraphDrive {
-    topologicalSort(connectList: Connection[]): NodeDescribe[] | undefined {
+    topologicalSort(connectList: Connection[]): INodeIndex[] | undefined {
         const connectionKey = this.mapNCDToKey(connectList);
         const sortedKeys = this.topologicalSortStrings(connectionKey);
         // 如果存在环，返回 undefined
@@ -21,8 +21,8 @@ export class GraphDrive {
         return this.mapKeyToNCD(connectList, sortedKeys);
     }
 
-    private nodeKey(node: NodeDescribe): string {
-        return `${node.id}-${node.instanceId}`;
+    private nodeKey(node: INodeIndex): string {
+        return `${node.name}-${node.instanceId}`;
     }
 
     private mapNCDToKey(connectList: Connection[]): ConnectionKey[] {
@@ -32,8 +32,8 @@ export class GraphDrive {
         }));
     }
 
-    private mapKeyToNCD(connectList: Connection[], sortedKeys: string[]): NodeDescribe[] {
-        const nodeMap: { [key: string]: NodeDescribe } = {};
+    private mapKeyToNCD(connectList: Connection[], sortedKeys: string[]): INodeIndex[] {
+        const nodeMap: { [key: string]: INodeIndex } = {};
         for (const connection of connectList) {
             nodeMap[this.nodeKey(connection.fromNode)] = connection.fromNode;
             nodeMap[this.nodeKey(connection.toNode)] = connection.toNode;

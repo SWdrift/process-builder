@@ -1,4 +1,5 @@
 import { Fn } from "../public/types/global";
+import { FunctionDefine, ConstantDefine } from "../public/types/app";
 
 /**
  * 方法、常量注册接口
@@ -18,21 +19,50 @@ export interface IManager {
     addProcess(processString: string | object): void;
 
     /**
-     * 注册方法
+     * 注册节点
      */
-    registerMethodNode<T extends Fn>(target: T, describe: FnDescribe<T>): void;
-    /**
-     * 注册常量
-     */
-    registerValueNode<T extends Object>(target: T, describe: ValueDescribe): void;
+    registerNode<T>(target: T, define: UseNodeDefine<T>): void;
     /**
      * 获取节点
      */
-    getNodeById(id: string): IEntNode<EnumNode> | undefined;
+    getNodeById<T extends EnumNode = EnumNode>(id: string): IEntNode<T> | undefined;
     /**
      * 获取所有节点
      */
-    getAllNodes(): IEntNode<EnumNode>[];
+    getAllNodes(): IEntNode[];
+}
+
+/**
+ * 节点注册时定义，可以是函数定义或常量定义
+ * @template T 类型参数
+ */
+export type UseNodeDefine<T> = T extends Fn ? FunctionDefine<T> : ConstantDefine<T>;
+
+/**
+ * 节点类型枚举
+ */
+export enum EnumNode {
+    Function = "function",
+    Constant = "constant"
+}
+
+/**
+ * 节点定义
+ * @template T 节点类型
+ */
+export type NodeDefine<T extends EnumNode = EnumNode> = {
+    [EnumNode.Function]: FunctionDefine<(args: any) => any>;
+    [EnumNode.Constant]: ConstantDefine<any>;
+}[T];
+
+/**
+ * 节点实体
+ * @template T 节点类型
+ */
+export interface IEntNode<T extends EnumNode = EnumNode> {
+    id: string;
+    target: any;
+    define: NodeDefine<T>;
 }
 
 /**
@@ -46,77 +76,21 @@ export interface IEntProcess {
 
 /**
  * 流程连接对象
+ * @template T 起点节点类型
+ * @template U 终点节点类型
  */
 export interface IEntConnect {
-    fromNode: NodeDescribe;
-    toNode: NodeDescribe;
+    fromNode: INodeIndex;
+    toNode: INodeIndex;
     toParam: string;
 }
 
 /**
  * 节点描述
  */
-export interface NodeDescribe {
-    id: string;
+export interface INodeIndex {
+    /** 节点名称 */
+    name: string;
+    /** 实例id  */
     instanceId: number;
 }
-
-/**
- * 描述
- */
-export interface BaseDescribe {
-    /** 唯一标识 */
-    id: string;
-    /** 描述 */
-    describe: string;
-    /** 是否可选 默认 false */
-    optional?: boolean;
-}
-
-/**
- * 常量描述
- */
-export interface ValueDescribe extends BaseDescribe {}
-
-/**
- * 方法描述
- */
-export interface FnDescribe<T extends Fn> extends BaseDescribe {
-    /** 入参 */
-    params: ParamDescribe<T>;
-    /** 出参 */
-    return: ReturnDescribe<T>;
-}
-
-/**
- * 节点
- */
-export interface IEntNode<T extends EnumNode> {
-    id: string;
-    describe: DescribeType<T>;
-    type: T;
-}
-
-/**
- * 节点类型
- */
-export enum EnumNode {
-    Method = "Method",
-    Value = "Value"
-}
-
-export type DescribeType<T extends EnumNode> = {
-    [EnumNode.Method]: FnDescribe<(args: any) => any>;
-    [EnumNode.Value]: ValueDescribe;
-}[T];
-
-type ParamType<T extends Fn> = T extends (...arg: infer P) => any ? [...P] : [];
-
-type ConstructTuple<T extends number, U extends any[] = []> = {
-    done: U;
-    recurse: ConstructTuple<T, [ValueDescribe, ...U]>;
-}[T extends U["length"] ? "done" : "recurse"];
-
-type ParamDescribe<T extends Fn> = ConstructTuple<ParamType<T>["length"]>;
-
-type ReturnDescribe<T extends Fn> = ReturnType<T> extends void ? undefined : ValueDescribe;
