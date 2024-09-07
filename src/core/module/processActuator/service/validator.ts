@@ -8,6 +8,7 @@ import {
 import { INodeManager } from "../../../middle/manager";
 import { GraphDrive } from "./graphDrive";
 import { getNodeKey } from "../util/node";
+import { logger } from "../../../public/module/logger";
 
 interface SuccessResult {
     success: true;
@@ -31,12 +32,14 @@ export class Validator {
         const connectList = process.nodeGraph;
         const nodes = this.graphDrive.topologicalSort(connectList);
         if (!nodes) {
+            logger.record("the node graph is not a DAG", logger.Level.Warn);
             return {
                 success: false,
                 data: { process }
             };
         }
         if (!this.validateParams(connectList, nodes)) {
+            logger.record("the process has invalid parameters", logger.Level.Warn);
             return {
                 success: false,
                 data: { process }
@@ -62,8 +65,11 @@ export class Validator {
             if (def.type === EnumNode.Function) {
                 const en = entNode as IEntNode<EnumNode.Function>;
                 const params = en.define.function.parameters;
-                const paramKeys = Object.keys(params);
+                const paramKeys = Object.keys(params.properties);
                 for (const paramKey of paramKeys) {
+                    if (!params.required) {
+                        throw new Error(`Required parameter not found`);
+                    }
                     if (!params.required.find((pk) => pk === paramKey)) {
                         continue;
                     } else {
@@ -75,7 +81,7 @@ export class Validator {
                 const en = entNode as IEntNode<EnumNode.Constant>;
                 paramsPredicate[en.define.constant.name] = true;
             }
-            nodeContainer[getNodeKey(node)] = { id: entNode.id, params: paramsPredicate };
+            nodeContainer[getNodeKey(node)] = { id: entNode.name, params: paramsPredicate };
         }
 
         // 校验节点连接参数

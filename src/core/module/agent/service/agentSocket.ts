@@ -7,7 +7,7 @@ export class AgentSocket {
     constructor(private api: IAgentApi) {}
     async chat(message: string): Promise<IEntMessage> {
         const response = await this.api.requestSingle(message, {
-            system: TOKEN_CONFIG.SYSTEM
+            system: TOKEN_CONFIG.ABSTRACT
         });
         if (!response || !response.data) {
             return new EntMessage({ id: "system", data: "Error", error: true });

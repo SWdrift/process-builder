@@ -13,13 +13,18 @@ export class NodeStorage {
     }
 
     saveNode(node: EntNode<EnumNode>) {
-        this.nodes[node.id] = node;
+        if (node.define.type === EnumNode.Function) {
+            this.saveFunction(node as EntNode<EnumNode.Function>);
+        }
+        if (node.define.type === EnumNode.Constant) {
+            this.saveConstant(node as EntNode<EnumNode.Constant>);
+        }
     }
     deleteNode(node: EntNode<EnumNode>) {
-        delete this.nodes[node.id];
+        delete this.nodes[node.name];
     }
     updateNode(node: EntNode<EnumNode>) {
-        this.nodes[node.id] = node;
+        this.nodes[node.name] = node;
     }
     getNodeById(id: string): EntNode<EnumNode> | undefined {
         if (id in this.nodes) {
@@ -29,5 +34,18 @@ export class NodeStorage {
     }
     getAllNodes(): EntNode<EnumNode>[] {
         return Object.values(this.nodes);
+    }
+
+    private saveFunction(node: EntNode<EnumNode.Function>) {
+        if (node.define.function.parameters.hasOwnProperty("required")) {
+            this.nodes[node.name] = node;
+        } else {
+            const requiredParams = Object.keys(node.define.function.parameters.properties);
+            node.define.function.parameters["required"] = requiredParams;
+            this.nodes[node.name] = node;
+        }
+    }
+    private saveConstant(node: EntNode<EnumNode.Constant>) {
+        this.nodes[node.name] = node;
     }
 }

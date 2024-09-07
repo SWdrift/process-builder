@@ -90,7 +90,7 @@ export class Executor {
         nodeValueMap: NodeValueMap,
         nodeDepMap: NodeDepMap
     ) {
-        if (Object.keys(nodeInstance.define.function.parameters).length > 0) {
+        if (Object.keys(nodeInstance.define.function.parameters.properties).length > 0) {
             const paramValues = this.getParamValues(
                 nodeIndex,
                 nodeInstance,
@@ -112,7 +112,7 @@ export class Executor {
         const def = nodeInstance.define.function;
         // 构建节点依赖 Keys，并从节点值表中获取依赖节点的值
         // nodeDepKey 为节点依赖 key，paramName 为参数名 用于判断参数是否可选
-        const paramKays = Object.keys(def.parameters).map((paramName) => {
+        const paramKays = Object.keys(def.parameters.properties).map((paramName) => {
             return {
                 nodeDepKey: this.buildNodeDepKey(nodeIndex.name, paramName, nodeIndex.instanceId),
                 paramName
@@ -139,6 +139,9 @@ export class Executor {
 
     private isOptionalParam(nodeInstance: EntNode<EnumNode.Function>, paramName: string): boolean {
         const def = nodeInstance.define.function;
+        if (!def.parameters.required) {
+            throw new Error(`Required parameter not found`);
+        }
         if (def.parameters.required.find((name) => name === paramName)) {
             return true;
         } else {

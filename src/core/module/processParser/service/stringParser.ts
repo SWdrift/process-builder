@@ -101,7 +101,7 @@ export class FlowStringParser {
         }
         const node = data as IEntNode<EnumNode.Function>;
 
-        if (!node.define.function.parameters.hasOwnProperty(paramId)) {
+        if (!node.define.function.parameters.properties.hasOwnProperty(paramId)) {
             logger.record(`string parser error, param not found`, logger.Level.Warn);
             return false;
         }

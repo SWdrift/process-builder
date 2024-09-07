@@ -1,5 +1,10 @@
 import { Fn } from "../public/types/global";
-import { FunctionDefine, ConstantDefine } from "../public/types/app";
+import {
+    FunctionDefine,
+    ConstantDefine,
+    SubFunctionDefine,
+    SubConstantDefine
+} from "../public/types/app";
 
 /**
  * 方法、常量注册接口
@@ -22,6 +27,14 @@ export interface IManager {
      * 注册节点
      */
     registerNode<T>(target: T, define: UseNodeDefine<T>): void;
+    /**
+     * 注册方法
+     */
+    registerFunction<T extends Fn>(target: T, define: SubFunctionDefine<T>): void;
+    /**
+     * 注册常量
+     */
+    registerConstant<T>(target: T, define: SubConstantDefine<T>): void;
     /**
      * 获取节点
      */
@@ -60,7 +73,7 @@ export type NodeDefine<T extends EnumNode = EnumNode> = {
  * @template T 节点类型
  */
 export interface IEntNode<T extends EnumNode = EnumNode> {
-    id: string;
+    name: string;
     target: any;
     define: NodeDefine<T>;
 }

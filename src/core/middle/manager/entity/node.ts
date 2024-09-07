@@ -2,13 +2,13 @@ import { IEntNode, EnumNode } from "../../../interface/manager";
 import { NodeDefine } from "../../../interface/manager";
 
 export class EntNode<T extends EnumNode> implements IEntNode {
-    public id: string;
+    public name: string;
 
     constructor(
         public target: any,
         public define: NodeDefine<T>
     ) {
-        this.id = this.getId(define);
+        this.name = this.getId(define);
     }
 
     private getId(nodeDefine: NodeDefine<T>): string {

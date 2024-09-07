@@ -6,6 +6,8 @@ import { IProcessNode } from "./interface/processNode";
 import { IProcessActuator } from "./interface/processActuator";
 import { IProcessManager } from "./interface/processStorage";
 import { IProcessParser } from "./interface/processParser";
+import { SubFunctionDefine, SubConstantDefine } from "../../public/types/app";
+import { Fn } from "../../public/types/global";
 export { EntNode };
 export type { IProcessNode as INodeManager };
 export type { IProcessActuator };
@@ -35,6 +37,22 @@ export class FlowManager implements IManager {
     registerNode<T>(target: T, define: UseNodeDefine<T>): void {
         if (!this.actionValidate.isRegisterOk(target, define)) return;
         this.nodeStorage.register(new EntNode(target, define));
+    }
+    registerFunction<T extends Fn>(target: T, define: SubFunctionDefine<T>): void {
+        const node = {
+            type: "function",
+            function: define
+        } as const;
+        if (!this.actionValidate.isRegisterOk(target, node)) return;
+        this.nodeStorage.register(new EntNode(target, node));
+    }
+    registerConstant<T>(target: T, define: SubConstantDefine<T>): void {
+        const node = {
+            type: "constant",
+            constant: define
+        } as const;
+        if (!this.actionValidate.isRegisterOk(target, node)) return;
+        this.nodeStorage.register(new EntNode(target, node));
     }
     getNodeById<T extends EnumNode = EnumNode>(id: string): IEntNode<T> | undefined {
         return this.nodeStorage.getNodeByName(id);

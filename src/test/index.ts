@@ -25,43 +25,71 @@ const testBaseRegister = () => {
         return "test message";
     };
 
-    processContainer.manager.registerMethodNode(test1, {
-        id: "test1",
-        describe: "打印测试信息在控制台",
-        return: undefined,
-        params: [
-            {
-                id: "message",
-                describe: "传入的消息"
+    processContainer.manager.registerFunction(test1, {
+        name: "test1",
+        description: "打印测试信息在控制台",
+        parameters: {
+            type: "object",
+            properties: {
+                message: {
+                    type: "string",
+                    description: "传入的消息"
+                }
             }
-        ]
-    });
-    processContainer.manager.registerMethodNode(test2, {
-        id: "test2",
-        describe: "打印测试信息在控制台",
-        return: {
-            id: "boolean",
-            describe: "布尔值"
         },
-        params: [
-            {
-                id: "message",
-                describe: "传入的消息"
-            },
-            {
-                id: "callback",
-                describe: "回调函数"
+        responses: {
+            type: "object",
+            properties: {}
+        }
+    });
+    processContainer.manager.registerFunction(test2, {
+        name: "test2",
+        description: "打印测试信息在控制台",
+        parameters: {
+            type: "object",
+            properties: {
+                message: {
+                    type: "string",
+                    description: "传入的消息"
+                },
+                callback: {
+                    type: "function",
+                    description: "回调函数",
+                    properties: {
+                        result: {
+                            type: "boolean",
+                            description: "回调函数状态"
+                        }
+                    }
+                }
             }
-        ]
-    });
-    processContainer.manager.registerMethodNode(getTestMessage, {
-        id: "getTestMessage",
-        describe: "获取测试消息",
-        return: {
-            id: "string",
-            describe: "字符串"
         },
-        params: []
+        responses: {
+            type: "object",
+            properties: {
+                result: {
+                    type: "boolean",
+                    description: "回调函数返回值"
+                }
+            }
+        }
+    });
+    processContainer.manager.registerFunction(getTestMessage, {
+        name: "getTestMessage",
+        description: "获取测试消息",
+        parameters: {
+            type: "object",
+            properties: {}
+        },
+        responses: {
+            type: "object",
+            properties: {
+                result: {
+                    type: "string",
+                    description: "测试消息"
+                }
+            }
+        }
     });
     console.log(processContainer.manager.getAllNodes());
 };
@@ -71,182 +99,11 @@ const testBaseFlowChat = async () => {
     if (result) {
         console.log(result);
     }
-};
-
-const testBuilderToken = async () => {
-    const loadImage = (filePath: string): string => {
-        console.log("加载图像", filePath);
-        return "imageData"; // 返回假定的图像数据
-    };
-
-    const applyFilter = (imageData: string, filterType: string): string => {
-        console.log("应用滤镜", imageData, filterType);
-        return "filteredImage"; // 返回假定的滤镜处理后的图像数据
-    };
-
-    const saveImage = (imageData: string, savePath: string): boolean => {
-        console.log("保存图像", imageData, savePath);
-        return true; // 假设保存成功，返回布尔值
-    };
-
-    const adjustBrightness = (imageData: string, brightness: number): string => {
-        console.log("调整亮度", imageData, brightness);
-        return "brightenedImage"; // 返回假定的调整后的图像数据
-    };
-
-    const mergeImages = (imageData1: string, imageData2: string): string => {
-        console.log("合并图像", imageData1, imageData2);
-        return "mergedImage"; // 返回假定的合并后的图像数据
-    };
-
-    const cropImage = (imageData: string, cropArea: object): string => {
-        console.log("裁剪图像", imageData, cropArea);
-        return "croppedImage"; // 返回假定的裁剪后的图像数据
-    };
-
-    const generateThumbnail = (imageData: string, size: string): string => {
-        console.log("生成缩略图", imageData, size);
-        return "thumbnail"; // 返回假定的缩略图数据
-    };
-
-    const rotateImage = (imageData: string, angle: number): string => {
-        console.log("旋转图像", imageData, angle);
-        return "rotatedImage"; // 返回假定的旋转后的图像数据
-    };
-
-    const registerImageProcessingNodes = () => {
-        processContainer.manager.registerMethodNode(loadImage, {
-            id: "node1",
-            describe: "加载图像",
-            return: { id: "imageData", describe: "加载的图像数据" },
-            params: [{ id: "filePath", describe: "图像文件路径" }]
-        });
-
-        processContainer.manager.registerMethodNode(applyFilter, {
-            id: "node2",
-            describe: "应用滤镜",
-            return: { id: "filteredImage", describe: "滤镜处理后的图像数据" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "filterType", describe: "滤镜类型" }
-            ]
-        });
-
-        processContainer.manager.registerMethodNode(saveImage, {
-            id: "node3",
-            describe: "保存图像",
-            return: { id: "saveStatus", describe: "保存状态" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "savePath", describe: "保存路径" }
-            ]
-        });
-
-        processContainer.manager.registerMethodNode(adjustBrightness, {
-            id: "node4",
-            describe: "调整图像亮度",
-            return: { id: "brightenedImage", describe: "调整后的图像数据" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "brightness", describe: "亮度值" }
-            ]
-        });
-
-        processContainer.manager.registerMethodNode(mergeImages, {
-            id: "node5",
-            describe: "合并图像",
-            return: { id: "mergedImage", describe: "合并后的图像数据" },
-            params: [
-                { id: "imageData1", describe: "第一张图像数据" },
-                { id: "imageData2", describe: "第二张图像数据" }
-            ]
-        });
-
-        processContainer.manager.registerMethodNode(cropImage, {
-            id: "node6",
-            describe: "裁剪图像",
-            return: { id: "croppedImage", describe: "裁剪后的图像数据" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "cropArea", describe: "裁剪区域" }
-            ]
-        });
-
-        processContainer.manager.registerMethodNode(generateThumbnail, {
-            id: "node7",
-            describe: "生成缩略图",
-            return: { id: "thumbnail", describe: "生成的缩略图" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "size", describe: "缩略图尺寸" }
-            ]
-        });
-
-        processContainer.manager.registerMethodNode(rotateImage, {
-            id: "node8",
-            describe: "图像旋转",
-            return: { id: "rotatedImage", describe: "旋转后的图像数据" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "angle", describe: "旋转角度" }
-            ]
-        });
-    };
-
-    const grayFilter = "gray";
-    const highBrightness = 150;
-    const cropAreaExample = { x: 10, y: 10, width: 100, height: 100 };
-    const thumbnailSize = "100x100";
-    const rotationAngle = 90;
-    const imagePath = "/path/to/image.jpg";
-    const savePath = "/path/to/save.jpg";
-
-    const registerImageProcessingValues = () => {
-        processContainer.manager.registerValueNode(grayFilter, {
-            id: "value1",
-            describe: "滤镜类型 - 灰度滤镜"
-        });
-
-        processContainer.manager.registerValueNode(highBrightness, {
-            id: "value2",
-            describe: "亮度值 - 高亮度"
-        });
-
-        processContainer.manager.registerValueNode(cropAreaExample, {
-            id: "value3",
-            describe: "裁剪区域 - 示例区域"
-        });
-
-        processContainer.manager.registerValueNode(thumbnailSize, {
-            id: "value4",
-            describe: "缩略图尺寸 - 100x100"
-        });
-
-        processContainer.manager.registerValueNode(rotationAngle, {
-            id: "value5",
-            describe: "旋转角度 - 90度"
-        });
-
-        processContainer.manager.registerValueNode(imagePath, {
-            id: "value6",
-            describe: "图像文件路径"
-        });
-
-        processContainer.manager.registerValueNode(savePath, {
-            id: "value7",
-            describe: "图像保存路径"
-        });
-    };
-
-    registerImageProcessingNodes();
-    registerImageProcessingValues();
-    console.log(processContainer.manager.getAllNodes());
-
-    console.log(await processContainer.chat.send("应用灰度滤镜并保存图像"));
-    // console.log(await processContainer.chat.send("旋转图像并生成缩略图"));
-    console.log(await processContainer.chat.send("调整亮度、应用反转滤镜并保存"));
-    // console.log(await processContainer.chat.send("合并两张图像并旋转结果"));
-    // console.log(await processContainer.chat.send("裁剪图像并应用滤镜"));
+    try {
+        await processContainer.manager.performProcess();
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 const testPerformProcess = async () => {
@@ -291,81 +148,222 @@ const testPerformProcess = async () => {
     };
 
     const registerImageProcessingNodes = () => {
-        processContainer.manager.registerMethodNode(loadImage, {
-            id: "node1",
-            describe: "加载图像",
-            return: { id: "imageData", describe: "加载的图像数据" },
-            params: [{ id: "filePath", describe: "图像文件路径" }]
+        processContainer.manager.registerFunction(loadImage, {
+            name: "loadImage",
+            description: "加载图像",
+            parameters: {
+                type: "object",
+                properties: {
+                    filePath: {
+                        type: "string",
+                        description: "图像文件路径"
+                    }
+                }
+            },
+            responses: {
+                type: "object",
+                properties: {
+                    result: {
+                        type: "string",
+                        description: "加载的图像数据"
+                    }
+                }
+            }
         });
 
-        processContainer.manager.registerMethodNode(applyFilter, {
-            id: "node2",
-            describe: "应用滤镜",
-            return: { id: "filteredImage", describe: "滤镜处理后的图像数据" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "filterType", describe: "滤镜类型" }
-            ]
+        processContainer.manager.registerFunction(applyFilter, {
+            name: "applyFilter",
+            description: "应用滤镜",
+            parameters: {
+                type: "object",
+                properties: {
+                    imageData: {
+                        type: "string",
+                        description: "图像数据"
+                    },
+                    filterType: {
+                        type: "string",
+                        description: "滤镜类型"
+                    }
+                }
+            },
+            responses: {
+                type: "object",
+                properties: {
+                    result: {
+                        type: "string",
+                        description: "滤镜处理后的图像数据"
+                    }
+                }
+            }
         });
 
-        processContainer.manager.registerMethodNode(saveImage, {
-            id: "node3",
-            describe: "保存图像",
-            return: { id: "saveStatus", describe: "保存状态" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "savePath", describe: "保存路径" }
-            ]
+        processContainer.manager.registerFunction(saveImage, {
+            name: "saveImage",
+            description: "保存图像",
+            parameters: {
+                type: "object",
+                properties: {
+                    imageData: {
+                        type: "string",
+                        description: "图像数据"
+                    },
+                    savePath: {
+                        type: "string",
+                        description: "保存路径"
+                    }
+                }
+            },
+            responses: {
+                type: "object",
+                properties: {
+                    result: {
+                        type: "boolean",
+                        description: "保存状态"
+                    }
+                }
+            }
         });
 
-        processContainer.manager.registerMethodNode(adjustBrightness, {
-            id: "node4",
-            describe: "调整图像亮度",
-            return: { id: "brightenedImage", describe: "调整后的图像数据" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "brightness", describe: "亮度值" }
-            ]
+        processContainer.manager.registerFunction(adjustBrightness, {
+            name: "adjustBrightness",
+            description: "调整图像亮度",
+            parameters: {
+                type: "object",
+                properties: {
+                    imageData: {
+                        type: "string",
+                        description: "图像数据"
+                    },
+                    brightness: {
+                        type: "number",
+                        description: "亮度值"
+                    }
+                }
+            },
+            responses: {
+                type: "object",
+                properties: {
+                    result: {
+                        type: "string",
+                        description: "调整后的图像数据"
+                    }
+                }
+            }
         });
 
-        processContainer.manager.registerMethodNode(mergeImages, {
-            id: "node5",
-            describe: "合并图像",
-            return: { id: "mergedImage", describe: "合并后的图像数据" },
-            params: [
-                { id: "imageData1", describe: "第一张图像数据" },
-                { id: "imageData2", describe: "第二张图像数据" }
-            ]
+        processContainer.manager.registerFunction(mergeImages, {
+            name: "mergeImages",
+            description: "合并图像",
+            parameters: {
+                type: "object",
+                properties: {
+                    imageData1: {
+                        type: "string",
+                        description: "第一张图像数据"
+                    },
+                    imageData2: {
+                        type: "string",
+                        description: "第二张图像数据"
+                    }
+                }
+            },
+            responses: {
+                type: "object",
+                properties: {
+                    result: {
+                        type: "string",
+                        description: "合并后的图像数据"
+                    }
+                }
+            }
         });
 
-        processContainer.manager.registerMethodNode(cropImage, {
-            id: "node6",
-            describe: "裁剪图像",
-            return: { id: "croppedImage", describe: "裁剪后的图像数据" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "cropArea", describe: "裁剪区域" }
-            ]
+        processContainer.manager.registerFunction(cropImage, {
+            name: "cropImage",
+            description: "裁剪图像",
+            parameters: {
+                type: "object",
+                properties: {
+                    imageData: {
+                        type: "string",
+                        description: "图像数据"
+                    },
+                    cropArea: {
+                        type: "object",
+                        description: "裁剪区域",
+                        properties: {
+                            x: { type: "number", description: "裁剪区域X坐标" },
+                            y: { type: "number", description: "裁剪区域Y坐标" },
+                            width: { type: "number", description: "裁剪区域宽度" },
+                            height: { type: "number", description: "裁剪区域高度" }
+                        }
+                    }
+                }
+            },
+            responses: {
+                type: "object",
+                properties: {
+                    result: {
+                        type: "string",
+                        description: "裁剪后的图像数据"
+                    }
+                }
+            }
         });
 
-        processContainer.manager.registerMethodNode(generateThumbnail, {
-            id: "node7",
-            describe: "生成缩略图",
-            return: { id: "thumbnail", describe: "生成的缩略图" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "size", describe: "缩略图尺寸" }
-            ]
+        processContainer.manager.registerFunction(generateThumbnail, {
+            name: "generateThumbnail",
+            description: "生成缩略图",
+            parameters: {
+                type: "object",
+                properties: {
+                    imageData: {
+                        type: "string",
+                        description: "图像数据"
+                    },
+                    size: {
+                        type: "string",
+                        description: "缩略图尺寸"
+                    }
+                }
+            },
+            responses: {
+                type: "object",
+                properties: {
+                    result: {
+                        type: "string",
+                        description: "生成的缩略图"
+                    }
+                }
+            }
         });
 
-        processContainer.manager.registerMethodNode(rotateImage, {
-            id: "node8",
-            describe: "图像旋转",
-            return: { id: "rotatedImage", describe: "旋转后的图像数据" },
-            params: [
-                { id: "imageData", describe: "图像数据" },
-                { id: "angle", describe: "旋转角度" }
-            ]
+        processContainer.manager.registerFunction(rotateImage, {
+            name: "rotateImage",
+            description: "图像旋转",
+            parameters: {
+                type: "object",
+                properties: {
+                    imageData: {
+                        type: "string",
+                        description: "图像数据"
+                    },
+                    angle: {
+                        type: "number",
+                        description: "旋转角度"
+                    }
+                }
+            },
+            responses: {
+                type: "object",
+                properties: {
+                    result: {
+                        type: "string",
+                        description: "旋转后的图像数据"
+                    }
+                }
+            }
         });
     };
 
@@ -378,39 +376,66 @@ const testPerformProcess = async () => {
     const savePath = "/path/to/save.jpg";
 
     const registerImageProcessingValues = () => {
-        processContainer.manager.registerValueNode(grayFilter, {
-            id: "value1",
-            describe: "滤镜类型 - 灰度滤镜"
+        processContainer.manager.registerConstant(grayFilter, {
+            name: "grayFilter",
+            description: "滤镜类型 - 灰度滤镜",
+            define: {
+                type: "string"
+            }
         });
 
-        processContainer.manager.registerValueNode(highBrightness, {
-            id: "value2",
-            describe: "亮度值 - 高亮度"
+        processContainer.manager.registerConstant(highBrightness, {
+            name: "highBrightness",
+            description: "亮度值 - 高亮度",
+            define: {
+                type: "number"
+            }
         });
 
-        processContainer.manager.registerValueNode(cropAreaExample, {
-            id: "value3",
-            describe: "裁剪区域 - 示例区域"
+        processContainer.manager.registerConstant(cropAreaExample, {
+            name: "cropAreaExample",
+            description: "裁剪区域 - 示例区域",
+            define: {
+                type: "object",
+                properties: {
+                    x: { type: "number" },
+                    y: { type: "number" },
+                    width: { type: "number" },
+                    height: { type: "number" }
+                }
+            }
         });
 
-        processContainer.manager.registerValueNode(thumbnailSize, {
-            id: "value4",
-            describe: "缩略图尺寸 - 100x100"
+        processContainer.manager.registerConstant(thumbnailSize, {
+            name: "thumbnailSize",
+            description: "缩略图尺寸 - 100x100",
+            define: {
+                type: "string"
+            }
         });
 
-        processContainer.manager.registerValueNode(rotationAngle, {
-            id: "value5",
-            describe: "旋转角度 - 90度"
+        processContainer.manager.registerConstant(rotationAngle, {
+            name: "rotationAngle",
+            description: "旋转角度 - 90度",
+            define: {
+                type: "number"
+            }
         });
 
-        processContainer.manager.registerValueNode(imagePath, {
-            id: "value6",
-            describe: "图像文件路径"
+        processContainer.manager.registerConstant(imagePath, {
+            name: "imagePath",
+            description: "图像文件路径",
+            define: {
+                type: "string"
+            }
         });
 
-        processContainer.manager.registerValueNode(savePath, {
-            id: "value7",
-            describe: "图像保存路径"
+        processContainer.manager.registerConstant(savePath, {
+            name: "savePath",
+            description: "图像保存路径",
+            define: {
+                type: "string"
+            }
         });
     };
 
@@ -424,12 +449,15 @@ const testPerformProcess = async () => {
     // console.log(await processContainer.chat.send("合并两张图像并旋转结果"));
     // console.log(await processContainer.chat.send("裁剪图像并应用滤镜"));
 
-    processContainer.manager.performProcess();
+    try {
+        await processContainer.manager.performProcess();
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 export async function mainTest() {
     testBaseRegister();
     testBaseFlowChat();
-    await testBuilderToken();
     await testPerformProcess();
 }

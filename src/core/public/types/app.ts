@@ -4,21 +4,27 @@ import { Fn } from "./global";
 export type ParameterProperties<T extends any[]> = T["length"] extends 0
     ? Record<string, never>
     : {
-          [key: string]: JsonSchema;
+          [key: string]: {
+              /** 参数类型  */
+              description: string;
+          } & JsonSchema;
       };
 
 export type FunctionParameters<T extends Fn, U extends any[] = Parameters<T>> = {
     type: "object";
     /** 参数定义 使用 JSON Schema 描述 */
     properties: ParameterProperties<U>;
-    /** 必须参数，数组中元素为参数名 */
-    required: string[];
+    /** 必须参数，数组中元素为参数名, 未定义则默认所有参数都为必填 */
+    required?: string[];
 };
 
 export type ResponsProperties<T> = T extends undefined | void
     ? Record<string, never>
     : {
-          result: JsonSchema;
+          result: {
+              /** 返回值描述 */
+              description: string;
+          } & JsonSchema;
       };
 
 export type FunctionResponses<T extends Fn, U extends any[] = ReturnType<T>> = {
@@ -39,11 +45,11 @@ export interface SubFunctionDefine<T extends Fn> {
 }
 
 export interface SubConstantDefine<_T> {
-    /** 常量名称 */
+    /** 值名称 */
     name: string;
-    /** 常量描述 */
+    /** 值描述 */
     description: string;
-    /** 常量定义 使用 JSON Schema 描述  */
+    /** 值定义 使用 JSON Schema 描述  */
     define: JsonSchema;
 }
 

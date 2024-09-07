@@ -1,5 +1,6 @@
 interface JsonSchemaString {
     type: "string";
+    description?: string;
     enum?: string[];
     maxLength?: number;
     minLength?: number;
@@ -8,6 +9,7 @@ interface JsonSchemaString {
 
 interface JsonSchemaNumber {
     type: "number";
+    description?: string;
     maximum?: number;
     minimum?: number;
     exclusiveMaximum?: boolean;
@@ -16,10 +18,12 @@ interface JsonSchemaNumber {
 
 interface JsonSchemaBoolean {
     type: "boolean";
+    description?: string;
 }
 
 interface JsonSchemaObject {
     type: "object";
+    description?: string;
     properties?: { [key: string]: JsonSchema };
     required?: string[];
     additionalProperties?: boolean | JsonSchema;
@@ -27,8 +31,18 @@ interface JsonSchemaObject {
 
 interface JsonSchemaArray {
     type: "array";
+    description?: string;
     items: JsonSchema;
     additionalItems?: boolean | JsonSchema;
+}
+
+interface JsonSchemaFunction {
+    type: "function";
+    description?: string;
+    properties?: { [key: string]: JsonSchema };
+    responses?: {
+        result: JsonSchema;
+    };
 }
 
 export type JsonSchema =
@@ -36,4 +50,5 @@ export type JsonSchema =
     | JsonSchemaNumber
     | JsonSchemaBoolean
     | JsonSchemaObject
-    | JsonSchemaArray;
+    | JsonSchemaArray
+    | JsonSchemaFunction;
