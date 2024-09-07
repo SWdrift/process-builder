@@ -12,7 +12,7 @@ export class Agent implements IAgent {
 
     constructor(nodeStorage: INodeManager, agentApi: IAgentApi, language: EnumLanguage) {
         this.tokenBuilder = new TokenBuilder(nodeStorage, language);
-        this.agentSocket = new AgentSocket(agentApi);
+        this.agentSocket = new AgentSocket(agentApi, language);
     }
 
     async sendMessage(message: IEntMessage): Promise<IEntMessage> {
