@@ -166,6 +166,7 @@ processContainer.manager.registerConstant(pi, {
 | 方法/属性 | 传入参数       | 返回值 | 描述                                             |
 | --------- | -------------- | ------ | ------------------------------------------------ |
 | agent     | IAgentApi 对象 | 无     | 配置项，指定使用的 Agent API，可以引入默认实现。 |
+| language  | EnumLanguage   | 无     | 指定语言环境，默认 `EnumLanguage.ZN_CH`          |
 
 ##### **FlowManager**
 
@@ -209,7 +210,7 @@ pnpm test
 
 #### TODO List
 
--   [ ] 多语言支持
+-   [x] 多语言支持
 -   [ ] 完善错误处理机制
 -   [x] 规范化函数描述格式
 -   [ ] 可配置规则引擎

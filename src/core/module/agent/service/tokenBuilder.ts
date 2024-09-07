@@ -1,17 +1,22 @@
+import { EnumLanguage } from "../../../interface/config";
 import { EnumNode } from "../../../interface/manager";
 import { INodeManager } from "../../../middle/manager";
 import { TOKEN_CONFIG } from "../setting/token";
 
 export class TokenBuilder {
-    constructor(private nodeManager: INodeManager) {}
+    constructor(
+        private nodeManager: INodeManager,
+        private language: EnumLanguage
+    ) {}
     buildToken(message: string): string {
         const { methodString, valueString } = this.getNodeString();
+        const token = TOKEN_CONFIG[this.language];
 
-        const messageToken = `${TOKEN_CONFIG.MESSAGE_PREFIX}${message}${TOKEN_CONFIG.MESSAGE_SUFFIX}`;
-        const methodToken = `${TOKEN_CONFIG.METHOD_PREFIX}${methodString}${TOKEN_CONFIG.METHOD_SUFFIX}`;
-        const valueToken = `${TOKEN_CONFIG.VALUE_PREFIX}${valueString}${TOKEN_CONFIG.VALUE_SUFFIX}`;
+        const messageToken = `${token.MESSAGE_PREFIX}${message}${token.MESSAGE_SUFFIX}`;
+        const methodToken = `${token.METHOD_PREFIX}${methodString}${token.METHOD_SUFFIX}`;
+        const valueToken = `${token.VALUE_PREFIX}${valueString}${token.VALUE_SUFFIX}`;
 
-        return TOKEN_CONFIG.PREFIX + messageToken + methodToken + valueToken + TOKEN_CONFIG.SUFFIX;
+        return token.PREFIX + messageToken + methodToken + valueToken + token.SUFFIX;
     }
 
     getNodeString(): { methodString: string; valueString: string } {

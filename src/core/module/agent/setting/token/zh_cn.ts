@@ -1,27 +1,7 @@
-/**
- * Token 设置
- */
-interface ITokenConfig {
-    /** 摘要 */
-    ABSTRACT: string;
-    /** token 前缀：表示处理流程的开始 */
-    PREFIX: string;
-    /** token 后缀：表示处理流程的结束 */
-    SUFFIX: string;
-    /** 消息前缀：表示每个任务的消息起始 */
-    MESSAGE_PREFIX: string;
-    /** 消息后缀：表示每个任务的消息结束 */
-    MESSAGE_SUFFIX: string;
-    /** 方法表前缀：表示方法的注册起始 */
-    METHOD_PREFIX: string;
-    /** 方法表后缀：表示方法的注册结束 */
-    METHOD_SUFFIX: string;
-    /** 值表前缀：表示常量的注册起始 */
-    VALUE_PREFIX: string;
-    /** 值表后缀：表示常量的注册结束 */
-    VALUE_SUFFIX: string;
-}
+import { ITokenConfig } from "../../interface/tokenConfig";
+import { EnumLanguage } from "../../../../interface/config";
 
+// 摘要
 const descAbstract =
     "你需要基于用户的图像处理目的，结合方法表和值表，生成结构化的图像处理流程数据。你的输出的结果应当为指定的数组格式。";
 
@@ -94,7 +74,8 @@ const descValueEnd = "值表结束。";
 
 const descEnd = "以上是Token的全部内容。";
 
-const ZH_CN: ITokenConfig = {
+export const ZH_CN: ITokenConfig = {
+    LANGUAGE: EnumLanguage.ZH_CN,
     ABSTRACT: descAbstract,
     PREFIX: descMate + descFormat + descExample + descNote + descMateEnd,
     SUFFIX: descEnd,
@@ -105,5 +86,3 @@ const ZH_CN: ITokenConfig = {
     VALUE_PREFIX: descValue,
     VALUE_SUFFIX: descValueEnd
 };
-
-export const TOKEN_CONFIG: ITokenConfig = ZH_CN;

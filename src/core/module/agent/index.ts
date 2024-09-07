@@ -4,13 +4,14 @@ import { INodeManager } from "../../middle/manager";
 import { TokenBuilder } from "./service/tokenBuilder";
 import { AgentSocket } from "./service/agentSocket";
 import { IAgentApi } from "./interface/agentApi";
+import { EnumLanguage } from "../../interface/config";
 
 export class Agent implements IAgent {
     private tokenBuilder: TokenBuilder;
     private agentSocket: AgentSocket;
 
-    constructor(nodeStorage: INodeManager, agentApi: IAgentApi) {
-        this.tokenBuilder = new TokenBuilder(nodeStorage);
+    constructor(nodeStorage: INodeManager, agentApi: IAgentApi, language: EnumLanguage) {
+        this.tokenBuilder = new TokenBuilder(nodeStorage, language);
         this.agentSocket = new AgentSocket(agentApi);
     }
 

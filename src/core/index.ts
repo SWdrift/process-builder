@@ -5,7 +5,7 @@ import { Agent, AgentWenxin } from "./module/agent";
 import { ProcessActuator } from "./module/processActuator";
 import { ProcessManager } from "./module/processStorage";
 import { ProcessParser } from "./module/processParser";
-import { IModuleConfig } from "./interface/config";
+import { IModuleConfig, EnumLanguage } from "./interface/config";
 
 export { AgentWenxin };
 
@@ -14,7 +14,7 @@ export class ProcessContainer {
     chat: FlowChat;
     constructor(config: IModuleConfig) {
         const nodeManager = new NodeManager();
-        const agent = new Agent(nodeManager, config.agent);
+        const agent = new Agent(nodeManager, config.agent, config.language ?? EnumLanguage.ZH_CN);
         const processActuator = new ProcessActuator(nodeManager);
         const processManager = new ProcessManager();
         const processParser = new ProcessParser(nodeManager);
