@@ -54,8 +54,8 @@ export class FlowManager implements IManager {
         if (!this.actionValidate.isRegisterOk(target, node)) return;
         this.nodeStorage.register(new EntNode(target, node));
     }
-    getNodeById<T extends EnumNode = EnumNode>(id: string): IEntNode<T> | undefined {
-        return this.nodeStorage.getNodeByName(id);
+    getNodeByName<T extends EnumNode = EnumNode>(name: string): IEntNode<T> | undefined {
+        return this.nodeStorage.getNodeByName(name);
     }
     getAllNodes(): IEntNode[] {
         return this.nodeStorage.getAllNodes();

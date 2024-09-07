@@ -38,7 +38,7 @@ export interface IManager {
     /**
      * 获取节点
      */
-    getNodeById<T extends EnumNode = EnumNode>(id: string): IEntNode<T> | undefined;
+    getNodeByName<T extends EnumNode = EnumNode>(name: string): IEntNode<T> | undefined;
     /**
      * 获取所有节点
      */
