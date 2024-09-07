@@ -65,29 +65,66 @@ const pi = 3.14159;
 
 // 3. 将函数与常量注册到 ProcessContainer 中
 
-processContainer.manager.registerMethodNode(add, {
-    id: "add",
-    describe: "将两数相加 a+b",
-    params: [
-        { id: "a", describe: "数字1" },
-        { id: "b", describe: "数字2" }
-    ],
-    return: { id: "c", describe: "两数相加的结果" }
+processContainer.manager.registerFunction(add, {
+    name: "add",
+    description: "将两数相加 a+b",
+    parameters: {
+        type: "object",
+        properties: {
+            a: {
+                type: "number",
+                description: "数字1"
+            },
+            b: {
+                type: "number",
+                description: "数字2"
+            }
+        }
+    },
+    responses: {
+        type: "object",
+        properties: {
+            result: {
+                type: "number",
+                description: "两数相加的结果"
+            }
+        }
+    }
 });
 
-processContainer.manager.registerMethodNode(subtract, {
-    id: "subtract",
-    describe: "将两数相减 a-b",
-    params: [
-        { id: "a", describe: "数字1" },
-        { id: "b", describe: "数字2" }
-    ],
-    return: { id: "c", describe: "两数相减的结果" }
+processContainer.manager.registerFunction(subtract, {
+    name: "subtract",
+    description: "将两数相减 a-b",
+    parameters: {
+        type: "object",
+        properties: {
+            a: {
+                type: "number",
+                description: "数字1"
+            },
+            b: {
+                type: "number",
+                description: "数字2"
+            }
+        }
+    },
+    responses: {
+        type: "object",
+        properties: {
+            result: {
+                type: "number",
+                description: "两数相减的结果"
+            }
+        }
+    }
 });
 
-processContainer.manager.registerValueNode(pi, {
-    id: "pi",
-    describe: "圆周率PI"
+processContainer.manager.registerConstant(pi, {
+    name: "pi",
+    description: "圆周率PI",
+    define: {
+        type: "number"
+    }
 });
 
 
@@ -136,9 +173,10 @@ processContainer.manager.registerValueNode(pi, {
 | --- | --- | --- | --- |
 | performProcess() | 无 | boolean（是否成功） | 从流程队列中取出流程并执行当前流程，返回是否成功 |
 | addProcess(processString: string \| object) | 流程字符串或流程对象 | void | 添加流程字符串或流程对象 |
-| registerMethodNode<T extends Fn>(target: T, describe: FnDescribe<T>) | 方法对象，方法描述对象 | void | 注册方法节点 |
-| registerValueNode<T extends Object>(target: T, describe: ValueDescribe) | 常量对象，常量描述对象 | void | 注册常量节点 |
-| getNodeById(id: string) | 节点 ID（字符串） | IEntNode（节点对象）或 undefine（如果未找到） | 根据 ID 获取节点 |
+| registerNode<T>(target: T, define: UseNodeDefine<T>) | 目标对象，节点定义 | void | 注册节点，包括方法和常量 |
+| registerFunction<T extends Fn>(target: T, describe: SubFunctionDefine<T>) | 方法对象，方法描述对象 | void | 注册方法节点 |
+| registerConstant<T extends Object>(target: T, describe: SubConstantDefine<T>) | 常量对象，常量描述对象 | void | 注册常量节点 |
+| getNodeByName(name: string) | 节点 ID（字符串） | IEntNode（节点对象）或 undefine（如果未找到） | 根据 节点 获取节点 |
 | getAllNodes() | 无 | IEntNode[]（节点对象数组） | 获取所有节点 |
 
 ##### **FlowChat**

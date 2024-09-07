@@ -20,29 +20,66 @@ function subtract(a: number, b: number): number {
 const pi = 3.14159;
 
 // 3. 注册函数与常量
-processContainer.manager.registerMethodNode(add, {
-    id: "add",
-    describe: "将两数相加 a+b",
-    params: [
-        { id: "a", describe: "数字1" },
-        { id: "b", describe: "数字2" }
-    ],
-    return: { id: "c", describe: "两数相加的结果" }
+processContainer.manager.registerFunction(add, {
+    name: "add",
+    description: "将两数相加 a+b",
+    parameters: {
+        type: "object",
+        properties: {
+            a: {
+                type: "number",
+                description: "数字1"
+            },
+            b: {
+                type: "number",
+                description: "数字2"
+            }
+        }
+    },
+    responses: {
+        type: "object",
+        properties: {
+            result: {
+                type: "number",
+                description: "两数相加的结果"
+            }
+        }
+    }
 });
 
-processContainer.manager.registerMethodNode(subtract, {
-    id: "subtract",
-    describe: "将两数相减 a-b",
-    params: [
-        { id: "a", describe: "数字1" },
-        { id: "b", describe: "数字2" }
-    ],
-    return: { id: "c", describe: "两数相减的结果" }
+processContainer.manager.registerFunction(subtract, {
+    name: "subtract",
+    description: "将两数相减 a-b",
+    parameters: {
+        type: "object",
+        properties: {
+            a: {
+                type: "number",
+                description: "数字1"
+            },
+            b: {
+                type: "number",
+                description: "数字2"
+            }
+        }
+    },
+    responses: {
+        type: "object",
+        properties: {
+            result: {
+                type: "number",
+                description: "两数相减的结果"
+            }
+        }
+    }
 });
 
-processContainer.manager.registerValueNode(pi, {
-    id: "pi",
-    describe: "圆周率PI"
+processContainer.manager.registerConstant(pi, {
+    name: "pi",
+    description: "圆周率PI",
+    define: {
+        type: "number"
+    }
 });
 
 // 4. 根据文本生成并执行流程
