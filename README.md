@@ -36,7 +36,7 @@ const { AgentWenxin, ProcessContainer } = require("process-builder");
 
 ```javascript
 import { AgentWenxin, ProcessContainer } from "process-builder";
-// const { AgentWenxin, ProcessContainer } = require("process-builder");  // 也可以使用ES模块
+// const { AgentWenxin, ProcessContainer } = require("process-builder");  // 也可以使用 CommonJS 模块
 
 
 // 1. 创建 ProcessContainer 实例
